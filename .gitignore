@@ -1,0 +1,55 @@
+# Dependencies
+node_modules/
+
+# Builds
+dist/
+build/
+.output/
+.vinxi/
+.nitro/
+.tanstack/
+.vercel/
+.wrangler/
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Logs and caches
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.cache/
+.turbo/
+.tanstack-scaffold/
+test-results/
+
+# Local agent/session artifacts
+.agents/
+_incoming/
+
+# OS and editors
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Heavy media kept outside Git
+public/media/
+public/videos/
+public/360/
+public/models/
+*.mp4
+*.mov
+*.mkv
+*.webm
+*.avi
+*.insv
+*.insp
+*.glb
+*.gltf
+*.fbx
+*.blend

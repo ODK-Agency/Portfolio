@@ -1,0 +1,572 @@
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600;700&display=swap');
+@import 'tailwindcss';
+
+:root {
+  --canvas: oklch(0.965 0.012 82);
+  --surface: oklch(0.935 0.014 88);
+  --ink: oklch(0.205 0.028 165);
+  --muted: oklch(0.48 0.03 112);
+  --field: oklch(0.34 0.075 158);
+  --heritage: oklch(0.55 0.11 38);
+  --signal: oklch(0.75 0.13 77);
+  --border: oklch(0.8 0.018 95);
+  --danger: oklch(0.54 0.16 30);
+}
+
+:root[data-theme='dark'] {
+  --canvas: oklch(0.18 0.022 158);
+  --surface: oklch(0.235 0.026 155);
+  --ink: oklch(0.925 0.014 82);
+  --muted: oklch(0.72 0.026 104);
+  --field: oklch(0.62 0.085 156);
+  --heritage: oklch(0.68 0.12 42);
+  --signal: oklch(0.78 0.13 77);
+  --border: oklch(0.38 0.026 132);
+  --danger: oklch(0.66 0.16 30);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  background: var(--canvas);
+  color-scheme: light;
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+}
+
+body,
+#app {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+  color: var(--ink);
+  background:
+    linear-gradient(
+      90deg,
+      color-mix(in oklch, var(--border) 42%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      0deg,
+      color-mix(in oklch, var(--border) 38%, transparent) 1px,
+      transparent 1px
+    ),
+    radial-gradient(
+      circle at 78% 8%,
+      color-mix(in oklch, var(--signal) 18%, transparent),
+      transparent 28rem
+    ),
+    var(--canvas);
+  background-size:
+    48px 48px,
+    48px 48px,
+    auto,
+    auto;
+  font-family:
+    Geist,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    sans-serif;
+  letter-spacing: 0;
+}
+
+:root[data-theme='dark'] body {
+  background:
+    linear-gradient(
+      90deg,
+      color-mix(in oklch, var(--border) 34%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      0deg,
+      color-mix(in oklch, var(--border) 28%, transparent) 1px,
+      transparent 1px
+    ),
+    radial-gradient(
+      circle at 78% 8%,
+      color-mix(in oklch, var(--heritage) 16%, transparent),
+      transparent 28rem
+    ),
+    var(--canvas);
+  background-size:
+    48px 48px,
+    48px 48px,
+    auto,
+    auto;
+}
+
+::selection {
+  color: var(--canvas);
+  background: var(--heritage);
+}
+
+img,
+video {
+  max-width: 100%;
+}
+
+.panorama-frame:fullscreen {
+  width: 100vw;
+  height: 100dvh;
+}
+
+.panorama-frame[data-expanded='true'] {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  width: 100vw;
+  height: 100dvh;
+  border: 0;
+  border-radius: 0;
+}
+
+.panorama-frame:fullscreen .panorama-stage,
+.panorama-frame[data-expanded='true'] .panorama-stage {
+  width: 100vw;
+  height: 100dvh;
+  min-height: 100dvh;
+  aspect-ratio: auto;
+}
+
+.font-mono {
+  font-family:
+    'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    'Liberation Mono', monospace;
+}
+
+.hero-grid {
+  animation: rise-in 680ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.work-grid-item,
+.teaching-gallery figure {
+  animation: filter-rise 520ms cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+
+.work-grid-item:nth-child(2n),
+.teaching-gallery figure:nth-child(2n) {
+  animation-name: filter-rise-offset;
+}
+
+.interactive-hero {
+  --pointer-x: 50%;
+  --pointer-y: 50%;
+  --tilt-x: 0deg;
+  --tilt-y: 0deg;
+}
+
+.interactive-hero__field,
+.interactive-hero__grid,
+.interactive-hero__scanner,
+.interactive-hero__contours {
+  pointer-events: none;
+}
+
+.interactive-hero__field {
+  transform: translate3d(
+    calc((var(--pointer-x) - 50%) * -0.035),
+    calc((var(--pointer-y) - 50%) * -0.02),
+    0
+  );
+  transition: transform 180ms ease-out;
+}
+
+.interactive-hero__media {
+  opacity: 0;
+  transform: scale(1.06);
+  filter: saturate(0.95) contrast(1.02);
+  transition:
+    opacity 820ms cubic-bezier(0.23, 1, 0.32, 1),
+    transform 1200ms cubic-bezier(0.23, 1, 0.32, 1),
+    filter 820ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.interactive-hero__media.is-active {
+  opacity: 0.9;
+  transform: scale(1.18)
+    translate3d(
+      calc((var(--pointer-x) - 50%) * -0.09),
+      calc((var(--pointer-y) - 50%) * -0.045),
+      0
+    );
+  filter: saturate(1.12) contrast(1.05);
+}
+
+.interactive-hero__grid {
+  background:
+    radial-gradient(
+      circle at var(--pointer-x) var(--pointer-y),
+      color-mix(in oklch, var(--signal) 24%, transparent),
+      transparent 18rem
+    ),
+    linear-gradient(90deg, rgba(244, 239, 226, 0.1) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(244, 239, 226, 0.08) 1px, transparent 1px);
+  background-size:
+    auto,
+    54px 54px,
+    54px 54px;
+  transform: translate3d(
+    calc((var(--pointer-x) - 50%) * -0.035),
+    calc((var(--pointer-y) - 50%) * -0.035),
+    0
+  );
+}
+
+.interactive-hero__scanner {
+  background:
+    radial-gradient(
+      circle at var(--pointer-x) var(--pointer-y),
+      rgba(244, 239, 226, 0.24),
+      rgba(244, 239, 226, 0.06) 9rem,
+      transparent 18rem
+    ),
+    linear-gradient(
+      120deg,
+      transparent 0%,
+      rgba(244, 239, 226, 0.08) 48%,
+      transparent 56%
+    );
+  mix-blend-mode: screen;
+  opacity: 0.78;
+}
+
+.interactive-hero__contours {
+  background:
+    radial-gradient(
+      circle at 22% 58%,
+      transparent 0 6.2rem,
+      rgba(244, 239, 226, 0.12) 6.25rem 6.32rem,
+      transparent 6.38rem
+    ),
+    radial-gradient(
+      circle at 68% 42%,
+      transparent 0 9.4rem,
+      rgba(244, 239, 226, 0.08) 9.45rem 9.52rem,
+      transparent 9.58rem
+    ),
+    linear-gradient(
+      115deg,
+      transparent 0 46%,
+      rgba(244, 239, 226, 0.12) 46.1% 46.18%,
+      transparent 46.28%
+    ),
+    linear-gradient(
+      155deg,
+      transparent 0 57%,
+      rgba(244, 239, 226, 0.08) 57.1% 57.18%,
+      transparent 57.28%
+    );
+  opacity: 0.72;
+  transform: translate3d(
+    calc((var(--pointer-x) - 50%) * 0.025),
+    calc((var(--pointer-y) - 50%) * 0.02),
+    0
+  );
+}
+
+.interactive-hero__panel {
+  border-top: 1px solid color-mix(in oklch, var(--canvas) 16%, transparent);
+  padding-top: 1.25rem;
+  transform: perspective(1200px) rotateX(calc(var(--tilt-x) * 0.35))
+    rotateY(calc(var(--tilt-y) * 0.28));
+  transition: transform 180ms ease-out;
+}
+
+.project-constellation {
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+  display: none;
+  pointer-events: none;
+}
+
+.project-marker {
+  position: absolute;
+  left: var(--marker-x);
+  top: var(--marker-y);
+  display: grid;
+  max-width: min(24vw, 22rem);
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.78rem;
+  color: color-mix(in oklch, var(--canvas) 54%, transparent);
+  pointer-events: auto;
+  transform: translate3d(
+      calc((var(--pointer-x) - 50%) * 0.018),
+      calc((var(--pointer-y) - 50%) * 0.014),
+      0
+    )
+    translateY(-50%);
+  transition:
+    color 220ms ease,
+    opacity 220ms ease,
+    transform 220ms ease;
+}
+
+.project-marker.is-right {
+  transform: translate3d(
+      calc((var(--pointer-x) - 50%) * -0.018),
+      calc((var(--pointer-y) - 50%) * 0.014),
+      0
+    )
+    translate(-100%, -50%);
+}
+
+.project-marker__dot {
+  margin-top: 0.16rem;
+  width: 0.82rem;
+  height: 0.82rem;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  background: color-mix(in oklch, var(--canvas) 82%, transparent);
+  box-shadow: 0 0 0 0.55rem color-mix(in oklch, var(--canvas) 8%, transparent);
+  transition:
+    background 220ms ease,
+    box-shadow 220ms ease,
+    transform 220ms ease;
+}
+
+.project-marker__kind {
+  display: block;
+  margin-bottom: 0.28rem;
+  font-family: 'Geist Mono', ui-monospace, monospace;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: color-mix(in oklch, currentColor 74%, transparent);
+}
+
+.project-marker__title {
+  display: block;
+  font-size: clamp(0.95rem, 1.25vw, 1.16rem);
+  font-weight: 700;
+  line-height: 1.08;
+  text-wrap: balance;
+}
+
+.project-marker:hover,
+.project-marker:focus-visible,
+.project-marker.is-active {
+  color: var(--canvas);
+  outline: none;
+}
+
+.project-marker:hover .project-marker__dot,
+.project-marker:focus-visible .project-marker__dot,
+.project-marker.is-active .project-marker__dot {
+  background: var(--signal);
+  box-shadow:
+    0 0 0 0.55rem color-mix(in oklch, var(--signal) 12%, transparent),
+    0 0 0 1.45rem color-mix(in oklch, var(--signal) 8%, transparent);
+  transform: scale(1.08);
+}
+
+.project-marker:focus-visible .project-marker__title {
+  text-decoration: underline;
+  text-underline-offset: 0.22rem;
+}
+
+.mobile-project-marker {
+  display: flex;
+  min-height: 4.25rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border-top: 1px solid color-mix(in oklch, var(--canvas) 16%, transparent);
+  color: color-mix(in oklch, var(--canvas) 62%, transparent);
+  transition:
+    color 220ms ease,
+    border-color 220ms ease,
+    transform 220ms ease;
+}
+
+.mobile-project-marker.is-active,
+.mobile-project-marker:hover,
+.mobile-project-marker:focus-visible {
+  color: var(--canvas);
+  border-color: color-mix(in oklch, var(--signal) 60%, transparent);
+  transform: translate3d(0, -1px, 0);
+  outline: none;
+}
+
+.project-signal {
+  display: grid;
+  min-height: 4.8rem;
+  grid-template-columns: auto minmax(0, 1fr) 2.75rem;
+  align-items: center;
+  gap: 0.85rem;
+  border-top: 1px solid color-mix(in oklch, var(--canvas) 14%, transparent);
+  padding: 1rem 0;
+  color: color-mix(in oklch, var(--canvas) 55%, transparent);
+  transition:
+    color 260ms ease,
+    padding 260ms ease,
+    border-color 260ms ease,
+    transform 260ms ease;
+}
+
+.project-signal:hover,
+.project-signal:focus-visible,
+.project-signal.is-active {
+  padding-left: 0.75rem;
+  color: var(--canvas);
+  border-color: color-mix(in oklch, var(--signal) 62%, transparent);
+  transform: translate3d(0, -1px, 0);
+}
+
+.project-signal__index {
+  font-family: 'Geist Mono', ui-monospace, monospace;
+  font-size: 0.75rem;
+  color: var(--signal);
+}
+
+.project-signal__title {
+  display: block;
+  font-size: clamp(1.35rem, 3.05vw, 2.85rem);
+  font-weight: 600;
+  line-height: 0.98;
+}
+
+.project-signal__summary {
+  margin-top: 0.75rem;
+  display: none;
+  max-width: 44ch;
+  color: color-mix(in oklch, var(--canvas) 62%, transparent);
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.project-signal__arrow {
+  display: grid;
+  width: 2.75rem;
+  height: 2.75rem;
+  place-items: center;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  transition: transform 260ms ease;
+}
+
+.project-signal:hover .project-signal__arrow,
+.project-signal:focus-visible .project-signal__arrow,
+.project-signal.is-active .project-signal__arrow {
+  transform: rotate(45deg);
+}
+
+@media (min-width: 1180px) {
+  .project-constellation {
+    display: block;
+  }
+
+  .mobile-project-markers {
+    display: none;
+  }
+}
+
+@media (min-width: 768px) {
+  .project-signal:hover .project-signal__summary,
+  .project-signal:focus-visible .project-signal__summary,
+  .project-signal.is-active .project-signal__summary {
+    display: block;
+  }
+}
+
+@media (max-width: 767px) {
+  .project-signal {
+    grid-template-columns: auto minmax(0, 1fr) 2.25rem;
+  }
+
+  .project-signal__arrow {
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+}
+
+@media (pointer: coarse) {
+  .interactive-hero__scanner {
+    background: radial-gradient(
+      circle at 50% 35%,
+      rgba(244, 239, 226, 0.16),
+      transparent 18rem
+    );
+  }
+
+  .interactive-hero__panel {
+    transform: none;
+  }
+
+  .interactive-hero__field,
+  .interactive-hero__contours,
+  .project-marker,
+  .project-marker.is-right {
+    transform: none;
+  }
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes filter-rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 18px, 0) scale(0.985);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes filter-rise-offset {
+  from {
+    opacity: 0;
+    transform: translate3d(14px, 22px, 0) scale(0.982);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+  }
+
+  .interactive-hero__media.is-active,
+  .interactive-hero__field,
+  .interactive-hero__grid,
+  .interactive-hero__contours,
+  .project-marker,
+  .interactive-hero__panel {
+    transform: none !important;
+  }
+}
