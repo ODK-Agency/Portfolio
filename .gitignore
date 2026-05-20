@@ -53,3 +53,5 @@ public/models/
 *.gltf
 *.fbx
 *.blend
+
+.vercel

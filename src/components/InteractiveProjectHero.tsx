@@ -86,6 +86,12 @@ export function InteractiveProjectHero({
             key={project.slug}
             src={project.cover}
             alt=""
+            width={1920}
+            height={1080}
+            decoding="async"
+            fetchPriority={
+              project.slug === 'guinea-360-field-captures' ? 'high' : 'auto'
+            }
             aria-hidden="true"
             className={[
               'interactive-hero__media absolute inset-0 h-full w-full object-cover',

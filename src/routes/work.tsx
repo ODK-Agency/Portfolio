@@ -6,8 +6,20 @@ import { PageFrame, SectionEyebrow } from '#/components/SiteShell'
 import { portfolioProjects } from '#/data/projects'
 import type { ProjectKind } from '#/data/projects'
 import { usePreferences } from '#/lib/preferences'
+import { seoLinks, seoMeta } from '#/lib/seo'
 
-export const Route = createFileRoute('/work')({ component: WorkPage })
+export const Route = createFileRoute('/work')({
+  head: () => ({
+    meta: seoMeta({
+      title: 'Projets | Mamadou Oury Diallo',
+      description:
+        'Projets choisis en XR, patrimoine, formation et archives terrain.',
+      path: '/work',
+    }),
+    links: seoLinks('/work'),
+  }),
+  component: WorkPage,
+})
 
 const filters: {
   label: { en: string; fr: string }

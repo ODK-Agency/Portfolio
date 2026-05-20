@@ -6,8 +6,19 @@ import { ProjectTile } from '#/components/ProjectShowcase'
 import { PageFrame, SectionEyebrow } from '#/components/SiteShell'
 import { featuredProjects, fieldLocations } from '#/data/projects'
 import { usePreferences } from '#/lib/preferences'
+import { seoLinks, seoMeta } from '#/lib/seo'
 
-export const Route = createFileRoute('/')({ component: Home })
+export const Route = createFileRoute('/')({
+  head: () => ({
+    meta: seoMeta({
+      title: 'Mamadou Oury Diallo | Portfolio XR, patrimoine et Unity',
+      description:
+        'Portfolio XR, Unity, patrimoine et archives terrain de Mamadou Oury Diallo.',
+    }),
+    links: seoLinks(),
+  }),
+  component: Home,
+})
 
 const productionSignals = [
   {

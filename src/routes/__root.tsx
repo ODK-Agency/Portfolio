@@ -15,12 +15,8 @@ export const Route = createRootRoute({
         content: 'width=device-width, initial-scale=1',
       },
       {
-        title: 'Mamadou Oury Diallo | XR, Heritage and Unity Portfolio',
-      },
-      {
-        name: 'description',
-        content:
-          'Portfolio of Mamadou Oury Diallo, XR builder, Unity educator and creative technologist working across heritage, training and immersive media.',
+        name: 'theme-color',
+        content: '#1a2e2a',
       },
     ],
     links: [
@@ -35,7 +31,7 @@ export const Route = createRootRoute({
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="fr">
       <head>
         <HeadContent />
       </head>

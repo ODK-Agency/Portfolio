@@ -30,7 +30,7 @@ export function PreferenceProvider({
 }: {
   children: React.ReactNode
 }) {
-  const [locale, setLocaleState] = useState<Locale>('en')
+  const [locale, setLocaleState] = useState<Locale>('fr')
   const [theme, setTheme] = useState<ThemeMode>('light')
   const [hasLoadedPreferences, setHasLoadedPreferences] = useState(false)
 

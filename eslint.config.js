@@ -19,6 +19,7 @@ export default [
       'eslint.config.js',
       'prettier.config.js',
       '.tanstack-scaffold/**',
+      '.output/**',
       'dist/**',
     ],
   },

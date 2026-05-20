@@ -1,6 +1,7 @@
 {
-  "short_name": "TanStack App",
-  "name": "Create TanStack App Sample",
+  "name": "Mamadou Oury Diallo, XR et patrimoine",
+  "short_name": "Oury Diallo",
+  "description": "Portfolio XR, patrimoine, Unity et archives terrain de Mamadou Oury Diallo.",
   "icons": [
     {
       "src": "favicon.ico",
@@ -18,8 +19,9 @@
       "sizes": "512x512"
     }
   ],
-  "start_url": ".",
+  "start_url": "/",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#1a2e2a",
+  "background_color": "#f4efe2",
+  "lang": "fr"
 }

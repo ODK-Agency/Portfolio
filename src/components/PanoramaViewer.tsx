@@ -196,7 +196,7 @@ export function PanoramaViewer({
       video.muted = true
       video.loop = true
       video.playsInline = true
-      video.preload = 'auto'
+      video.preload = 'metadata'
       videoRef.current = video
 
       const texture = new THREE.VideoTexture(video)
@@ -393,6 +393,9 @@ export function PanoramaViewer({
               <img
                 src={media.poster}
                 alt=""
+                width={1920}
+                height={960}
+                decoding="async"
                 className={[
                   'absolute inset-0 z-10 h-full w-full scale-105 object-cover opacity-45 blur-sm transition-opacity duration-300',
                   loaded ? 'opacity-0' : 'opacity-45',
@@ -552,6 +555,9 @@ function NativeFallback({ media }: { media: MediaItem }) {
       <img
         src={media.fallbackImage ?? media.src}
         alt={media.alt[locale]}
+        width={1920}
+        height={960}
+        decoding="async"
         className="h-full w-full object-cover opacity-80"
       />
       <div className="absolute inset-0 grid place-items-center bg-[color:var(--ink)]/42 p-8 text-center text-[color:var(--canvas)]">

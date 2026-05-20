@@ -5,8 +5,20 @@ import { SocialLinks } from '#/components/SocialLinks'
 import { PageFrame, SectionEyebrow } from '#/components/SiteShell'
 import { profile } from '#/config/profile'
 import { usePreferences } from '#/lib/preferences'
+import { seoLinks, seoMeta } from '#/lib/seo'
 
-export const Route = createFileRoute('/about')({ component: AboutPage })
+export const Route = createFileRoute('/about')({
+  head: () => ({
+    meta: seoMeta({
+      title: 'À propos | Mamadou Oury Diallo',
+      description:
+        'À propos de Mamadou Oury Diallo, développeur XR, formateur Unity et creative technologist.',
+      path: '/about',
+    }),
+    links: seoLinks('/about'),
+  }),
+  component: AboutPage,
+})
 
 const proofRows = [
   {

@@ -7,8 +7,20 @@ import { SocialLinks } from '#/components/SocialLinks'
 import { PageFrame, SectionEyebrow } from '#/components/SiteShell'
 import { profile } from '#/config/profile'
 import { usePreferences } from '#/lib/preferences'
+import { seoLinks, seoMeta } from '#/lib/seo'
 
-export const Route = createFileRoute('/contact')({ component: ContactPage })
+export const Route = createFileRoute('/contact')({
+  head: () => ({
+    meta: seoMeta({
+      title: 'Contact | Mamadou Oury Diallo',
+      description:
+        'Contacter Mamadou Oury Diallo pour des projets XR, formations Unity, médias muséaux et archives 360.',
+      path: '/contact',
+    }),
+    links: seoLinks('/contact'),
+  }),
+  component: ContactPage,
+})
 
 function ContactPage() {
   const { t } = usePreferences()

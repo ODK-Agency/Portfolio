@@ -1,5 +1,6 @@
-import { Link } from '@tanstack/react-router'
-import { ArrowUpRight, Languages, Moon, Sun } from 'lucide-react'
+import { Link, useLocation } from '@tanstack/react-router'
+import { ArrowUpRight, Languages, Menu, Moon, Sun, X } from 'lucide-react'
+import { useEffect, useId, useRef, useState } from 'react'
 
 import { SocialLinks } from '#/components/SocialLinks'
 import { profile } from '#/config/profile'
@@ -16,8 +17,72 @@ const navItems = [
   { label: { en: 'Contact', fr: 'Contact' }, to: '/contact' },
 ]
 
+function getFocusableElements(root: HTMLElement | null) {
+  if (!root) return []
+
+  return Array.from(
+    root.querySelectorAll<HTMLElement>(
+      'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
+    ),
+  ).filter((element) => !element.hasAttribute('disabled'))
+}
+
 export function SiteHeader() {
   const { locale, theme, t, toggleLocale, toggleTheme } = usePreferences()
+  const location = useLocation()
+  const mobileMenuId = useId()
+  const menuButtonRef = useRef<HTMLButtonElement>(null)
+  const mobilePanelRef = useRef<HTMLDivElement>(null)
+  const restoreFocusRef = useRef<HTMLElement | null>(null)
+  const [menuOpen, setMenuOpen] = useState(false)
+
+  useEffect(() => {
+    setMenuOpen(false)
+  }, [location.pathname])
+
+  useEffect(() => {
+    if (!menuOpen) return
+
+    restoreFocusRef.current = document.activeElement as HTMLElement | null
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    const focusable = getFocusableElements(mobilePanelRef.current)
+    focusable[0]?.focus()
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setMenuOpen(false)
+        return
+      }
+
+      if (event.key !== 'Tab') return
+
+      const currentFocusable = getFocusableElements(mobilePanelRef.current)
+      if (currentFocusable.length === 0) {
+        event.preventDefault()
+        return
+      }
+
+      const first = currentFocusable[0]
+      const last = currentFocusable[currentFocusable.length - 1]
+
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault()
+        last.focus()
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault()
+        first.focus()
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+
+    return () => {
+      document.body.style.overflow = previousOverflow
+      window.removeEventListener('keydown', handleKeyDown)
+      restoreFocusRef.current?.focus()
+    }
+  }, [menuOpen])
 
   return (
     <header className="fixed left-0 right-0 top-0 z-30 border-b border-[color:var(--border)] bg-[color:var(--canvas)]/88 backdrop-blur-md">
@@ -61,8 +126,14 @@ export function SiteHeader() {
             type="button"
             aria-label={
               theme === 'light'
-                ? 'Switch to dark theme'
-                : 'Switch to light theme'
+                ? t({
+                    en: 'Switch to dark theme',
+                    fr: 'Passer au thème sombre',
+                  })
+                : t({
+                    en: 'Switch to light theme',
+                    fr: 'Passer au thème clair',
+                  })
             }
             onClick={toggleTheme}
             className="grid min-h-11 min-w-11 place-items-center rounded-full border border-[color:var(--border)] bg-[color:var(--surface)] text-[color:var(--ink)] transition hover:-translate-y-0.5 hover:border-[color:var(--heritage)] focus:outline-none focus:ring-2 focus:ring-[color:var(--signal)]"
@@ -75,11 +146,15 @@ export function SiteHeader() {
           </button>
           <button
             type="button"
-            aria-label="Switch language"
+            aria-label={t({ en: 'Switch language', fr: 'Changer de langue' })}
             onClick={toggleLocale}
-            className="hidden min-h-11 items-center gap-2 rounded-full border border-[color:var(--border)] bg-[color:var(--surface)] px-3 py-2 font-mono text-xs uppercase tracking-[0.12em] text-[color:var(--ink)] transition hover:-translate-y-0.5 hover:border-[color:var(--heritage)] focus:outline-none focus:ring-2 focus:ring-[color:var(--signal)] sm:inline-flex"
+            className="inline-flex min-h-11 items-center gap-2 rounded-full border border-[color:var(--border)] bg-[color:var(--surface)] px-3 py-2 font-mono text-xs uppercase tracking-[0.12em] text-[color:var(--ink)] transition hover:-translate-y-0.5 hover:border-[color:var(--heritage)] focus:outline-none focus:ring-2 focus:ring-[color:var(--signal)]"
           >
-            <Languages size={16} aria-hidden="true" />
+            <Languages
+              className="hidden sm:block"
+              size={16}
+              aria-hidden="true"
+            />
             {locale === 'en' ? 'FR' : 'EN'}
           </button>
           <a
@@ -91,17 +166,96 @@ export function SiteHeader() {
             </span>
             <ArrowUpRight aria-hidden="true" size={16} />
           </a>
+          <button
+            type="button"
+            ref={menuButtonRef}
+            aria-label={
+              menuOpen
+                ? t({ en: 'Close navigation', fr: 'Fermer la navigation' })
+                : t({ en: 'Open navigation', fr: 'Ouvrir la navigation' })
+            }
+            aria-expanded={menuOpen}
+            aria-controls={mobileMenuId}
+            onClick={() => setMenuOpen((current) => !current)}
+            className="grid min-h-11 min-w-11 place-items-center rounded-full border border-[color:var(--border)] bg-[color:var(--surface)] text-[color:var(--ink)] transition hover:-translate-y-0.5 hover:border-[color:var(--heritage)] focus:outline-none focus:ring-2 focus:ring-[color:var(--signal)] md:hidden"
+          >
+            {menuOpen ? (
+              <X size={18} aria-hidden="true" />
+            ) : (
+              <Menu size={18} aria-hidden="true" />
+            )}
+          </button>
         </div>
       </div>
+      {menuOpen ? (
+        <div
+          id={mobileMenuId}
+          ref={mobilePanelRef}
+          role="dialog"
+          aria-modal="true"
+          aria-label={t({
+            en: 'Mobile navigation',
+            fr: 'Navigation mobile',
+          })}
+          className="fixed inset-x-0 top-[73px] z-40 max-h-[calc(100dvh-73px)] overflow-y-auto border-t border-[color:var(--canvas)]/10 bg-[color:var(--ink)] px-5 pb-[calc(2rem+env(safe-area-inset-bottom))] pt-5 text-[color:var(--canvas)] shadow-[0_24px_70px_rgba(18,33,29,0.28)] md:hidden"
+        >
+          <nav aria-label="Mobile navigation" className="grid gap-2">
+            {navItems.map((item) => (
+              <Link
+                key={item.to}
+                to={item.to}
+                className="rounded-[1.25rem] border border-[color:var(--canvas)]/10 bg-[color:var(--canvas)]/6 px-5 py-4 text-2xl font-semibold leading-tight text-[color:var(--canvas)] transition hover:border-[color:var(--signal)] focus:outline-none focus:ring-2 focus:ring-[color:var(--signal)]"
+                activeProps={{
+                  className:
+                    'rounded-[1.25rem] border border-[color:var(--signal)] bg-[color:var(--signal)] px-5 py-4 text-2xl font-semibold leading-tight text-[color:var(--ink)] focus:outline-none focus:ring-2 focus:ring-[color:var(--signal)]',
+                }}
+              >
+                {t(item.label)}
+              </Link>
+            ))}
+          </nav>
+          <div className="mt-5 flex flex-wrap gap-2">
+            <button
+              type="button"
+              aria-label={t({
+                en: 'Switch language',
+                fr: 'Changer de langue',
+              })}
+              onClick={toggleLocale}
+              className="inline-flex min-h-11 items-center gap-2 rounded-full border border-[color:var(--canvas)]/18 px-4 py-2 font-mono text-xs uppercase tracking-[0.12em] text-[color:var(--canvas)] transition hover:border-[color:var(--signal)] focus:outline-none focus:ring-2 focus:ring-[color:var(--signal)]"
+            >
+              <Languages size={16} aria-hidden="true" />
+              {locale === 'en' ? 'FR' : 'EN'}
+            </button>
+            <a
+              href={`mailto:${profile.email}`}
+              className="inline-flex min-h-11 items-center gap-2 rounded-full bg-[color:var(--heritage)] px-4 py-2 text-sm font-semibold text-[color:var(--canvas)] transition hover:bg-[color:var(--field)] focus:outline-none focus:ring-2 focus:ring-[color:var(--signal)]"
+            >
+              {t({ en: 'Contact', fr: 'Contact' })}
+              <ArrowUpRight aria-hidden="true" size={16} />
+            </a>
+          </div>
+        </div>
+      ) : null}
     </header>
   )
 }
 
 export function PageFrame({ children }: { children: React.ReactNode }) {
+  const { t } = usePreferences()
+
   return (
     <>
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-full focus:bg-[color:var(--ink)] focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-[color:var(--canvas)] focus:outline-none focus:ring-2 focus:ring-[color:var(--signal)]"
+      >
+        {t({ en: 'Skip to main content', fr: 'Aller au contenu principal' })}
+      </a>
       <SiteHeader />
-      <main className="pt-24">{children}</main>
+      <main id="main-content" className="pt-24">
+        {children}
+      </main>
       <Footer />
     </>
   )

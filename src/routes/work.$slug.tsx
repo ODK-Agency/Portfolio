@@ -5,12 +5,30 @@ import { MediaFallback } from '#/components/ProjectShowcase'
 import { PageFrame, SectionEyebrow } from '#/components/SiteShell'
 import { getProject } from '#/data/projects'
 import { usePreferences } from '#/lib/preferences'
+import { seoLinks, seoMeta } from '#/lib/seo'
 
 export const Route = createFileRoute('/work/$slug')({
   loader: ({ params }) => {
     const project = getProject(params.slug)
     if (!project) throw notFound()
     return { project }
+  },
+  head: ({ loaderData }) => {
+    const project = loaderData?.project
+    const path = project ? `/work/${project.slug}` : '/work'
+
+    return {
+      meta: seoMeta({
+        title: project
+          ? `${project.title} | Mamadou Oury Diallo`
+          : 'Projet | Mamadou Oury Diallo',
+        description:
+          project?.summary.fr ??
+          'Projets choisis en XR, patrimoine, formation et archives terrain.',
+        path,
+      }),
+      links: seoLinks(path),
+    }
   },
   component: WorkDetailPage,
 })
@@ -56,6 +74,10 @@ function WorkDetailPage() {
             <img
               src={project.cover}
               alt={project.coverAlt[locale]}
+              width={1920}
+              height={1440}
+              decoding="async"
+              fetchPriority="high"
               className="aspect-[4/3] w-full object-cover"
             />
           </div>

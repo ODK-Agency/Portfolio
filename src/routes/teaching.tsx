@@ -2,8 +2,20 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { PageFrame, SectionEyebrow } from '#/components/SiteShell'
 import { usePreferences } from '#/lib/preferences'
+import { seoLinks, seoMeta } from '#/lib/seo'
 
-export const Route = createFileRoute('/teaching')({ component: TeachingPage })
+export const Route = createFileRoute('/teaching')({
+  head: () => ({
+    meta: seoMeta({
+      title: 'Formation | Mamadou Oury Diallo',
+      description:
+        'Travail de formation Unity, XR et creative technology par Mamadou Oury Diallo.',
+      path: '/teaching',
+    }),
+    links: seoLinks('/teaching'),
+  }),
+  component: TeachingPage,
+})
 
 const teachingProofs = [
   {
@@ -127,6 +139,9 @@ function TeachingPage() {
                 <img
                   src={image.src}
                   alt={image.alt[locale]}
+                  width={index === 0 ? 1200 : 1600}
+                  height={index === 0 ? 1500 : 1000}
+                  decoding="async"
                   className={[
                     'w-full object-cover',
                     index === 0 ? 'aspect-[4/5] h-full' : 'aspect-[16/10]',

@@ -1,10 +1,13 @@
 import { Link } from '@tanstack/react-router'
 import { ArrowUpRight, Box, Film, Globe2, ImageIcon } from 'lucide-react'
-import { useState } from 'react'
+import { lazy, Suspense, useState } from 'react'
 
 import type { MediaItem, MediaKind, PortfolioProject } from '#/data/projects'
 import { usePreferences } from '#/lib/preferences'
-import { PanoramaViewer } from './PanoramaViewer'
+
+const PanoramaViewer = lazy(() =>
+  import('./PanoramaViewer').then((mod) => ({ default: mod.PanoramaViewer })),
+)
 
 function MediaIcon({ kind }: { kind: MediaKind }) {
   if (kind === 'video') return <Film size={15} aria-hidden="true" />
@@ -37,6 +40,10 @@ export function ProjectTile({
       <img
         src={project.cover}
         alt={project.coverAlt[locale]}
+        width={1920}
+        height={1080}
+        decoding="async"
+        fetchPriority={isHero ? 'high' : 'auto'}
         className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-[1.035]"
         loading={isHero ? 'eager' : 'lazy'}
       />
@@ -89,6 +96,7 @@ export function ProjectTile({
 
 export function MediaFallback({ project }: { project: PortfolioProject }) {
   const { locale, t } = usePreferences()
+  const [primaryViewerOpen, setPrimaryViewerOpen] = useState(false)
 
   if (project.media.length === 0) {
     return (
@@ -112,10 +120,16 @@ export function MediaFallback({ project }: { project: PortfolioProject }) {
     return (
       <div className="grid gap-4">
         <figure className="overflow-hidden rounded-[2rem] border border-[color:var(--border)] bg-[color:var(--ink)]">
-          {firstMedia.is360 ? (
-            <PanoramaViewer
+          {firstMedia.is360 && primaryViewerOpen ? (
+            <PanoramaFrame
               media={firstMedia}
               className="rounded-none border-0"
+            />
+          ) : firstMedia.is360 ? (
+            <PrimaryPanoramaPrompt
+              media={firstMedia}
+              fallback={firstMedia.poster ?? project.cover}
+              onOpen={() => setPrimaryViewerOpen(true)}
             />
           ) : (
             <video
@@ -146,10 +160,18 @@ export function MediaFallback({ project }: { project: PortfolioProject }) {
     return (
       <div className="grid gap-4">
         <div className="overflow-hidden rounded-[2rem] border border-[color:var(--border)] bg-[color:var(--ink)]">
-          <PanoramaViewer
-            media={firstMedia}
-            className="rounded-none border-0"
-          />
+          {primaryViewerOpen ? (
+            <PanoramaFrame
+              media={firstMedia}
+              className="rounded-none border-0"
+            />
+          ) : (
+            <PrimaryPanoramaPrompt
+              media={firstMedia}
+              fallback={firstMedia.fallbackImage ?? firstMedia.src}
+              onOpen={() => setPrimaryViewerOpen(true)}
+            />
+          )}
           <div className="flex items-center justify-between gap-5 p-5 text-[color:var(--canvas)]">
             <div>
               <p className="font-mono text-xs uppercase tracking-[0.18em] text-[color:var(--signal)]">
@@ -176,6 +198,9 @@ export function MediaFallback({ project }: { project: PortfolioProject }) {
         <img
           src={firstMedia.fallbackImage ?? project.cover}
           alt={firstMedia.alt[locale]}
+          width={1920}
+          height={1080}
+          decoding="async"
           className="h-full min-h-72 w-full object-cover"
           loading="lazy"
         />
@@ -203,6 +228,9 @@ export function MediaFallback({ project }: { project: PortfolioProject }) {
         <img
           src={firstMedia.src}
           alt={firstMedia.alt[locale]}
+          width={1920}
+          height={1080}
+          decoding="async"
           className="aspect-video w-full object-cover"
           loading="lazy"
         />
@@ -227,6 +255,40 @@ function MediaGrid({ media }: { media: PortfolioProject['media'] }) {
   )
 }
 
+function PrimaryPanoramaPrompt({
+  fallback,
+  media,
+  onOpen,
+}: {
+  fallback: string
+  media: MediaItem
+  onOpen: () => void
+}) {
+  const { locale, t } = usePreferences()
+
+  return (
+    <button
+      type="button"
+      onClick={onOpen}
+      className="group relative block w-full overflow-hidden text-left focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[color:var(--signal)]"
+    >
+      <img
+        src={fallback}
+        alt={media.alt[locale]}
+        width={1920}
+        height={1080}
+        decoding="async"
+        className="aspect-video w-full object-cover transition duration-500 group-hover:scale-[1.03]"
+        loading="lazy"
+      />
+      <span className="absolute right-4 top-4 inline-flex items-center gap-2 rounded-full bg-[color:var(--ink)]/76 px-4 py-2 font-mono text-[10px] uppercase tracking-[0.14em] text-[color:var(--canvas)] backdrop-blur">
+        <Globe2 size={14} aria-hidden="true" />
+        {t({ en: 'View 360', fr: 'Voir 360' })}
+      </span>
+    </button>
+  )
+}
+
 function MediaCard({ item }: { item: MediaItem }) {
   const { locale, t } = usePreferences()
   const [viewerOpen, setViewerOpen] = useState(false)
@@ -235,7 +297,7 @@ function MediaCard({ item }: { item: MediaItem }) {
     if (item.is360 && viewerOpen) {
       return (
         <figure className="overflow-hidden rounded-[1.5rem] border border-[color:var(--border)] bg-[color:var(--ink)]">
-          <PanoramaViewer media={item} className="rounded-none border-0" />
+          <PanoramaFrame media={item} className="rounded-none border-0" />
           <figcaption className="flex items-center justify-between gap-3 p-3 font-mono text-[10px] uppercase tracking-[0.16em] text-[color:var(--canvas)]/68">
             {t(item.title)}
             <button
@@ -261,6 +323,9 @@ function MediaCard({ item }: { item: MediaItem }) {
             <img
               src={item.poster}
               alt={item.alt[locale]}
+              width={1920}
+              height={1080}
+              decoding="async"
               className="aspect-video w-full object-cover transition duration-500 group-hover:scale-[1.03]"
               loading="lazy"
             />
@@ -296,7 +361,7 @@ function MediaCard({ item }: { item: MediaItem }) {
     if (viewerOpen) {
       return (
         <figure className="overflow-hidden rounded-[1.5rem] border border-[color:var(--border)] bg-[color:var(--ink)]">
-          <PanoramaViewer media={item} className="rounded-none border-0" />
+          <PanoramaFrame media={item} className="rounded-none border-0" />
           <figcaption className="flex items-center justify-between gap-3 p-3 font-mono text-[10px] uppercase tracking-[0.16em] text-[color:var(--canvas)]/68">
             {t(item.title)}
             <button
@@ -321,6 +386,9 @@ function MediaCard({ item }: { item: MediaItem }) {
           <img
             src={item.fallbackImage ?? item.src}
             alt={item.alt[locale]}
+            width={1920}
+            height={1080}
+            decoding="async"
             className="aspect-video w-full object-cover transition duration-500 group-hover:scale-[1.03]"
             loading="lazy"
           />
@@ -341,6 +409,9 @@ function MediaCard({ item }: { item: MediaItem }) {
       <img
         src={item.src}
         alt={item.alt[locale]}
+        width={1920}
+        height={1080}
+        decoding="async"
         className="aspect-video w-full object-cover"
         loading="lazy"
       />
@@ -348,5 +419,34 @@ function MediaCard({ item }: { item: MediaItem }) {
         {t(item.title)}
       </figcaption>
     </figure>
+  )
+}
+
+function PanoramaFrame({
+  media,
+  className,
+}: {
+  media: MediaItem
+  className?: string
+}) {
+  return (
+    <Suspense fallback={<PanoramaSkeleton className={className} />}>
+      <PanoramaViewer media={media} className={className} />
+    </Suspense>
+  )
+}
+
+function PanoramaSkeleton({ className }: { className?: string }) {
+  return (
+    <div
+      className={[
+        'grid aspect-video w-full place-items-center bg-[color:var(--ink)] text-[color:var(--canvas)]/70',
+        className ?? '',
+      ].join(' ')}
+    >
+      <span className="font-mono text-xs uppercase tracking-[0.16em]">
+        Loading 360 viewer...
+      </span>
+    </div>
   )
 }
