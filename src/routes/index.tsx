@@ -67,6 +67,33 @@ const productionSignals = [
   },
 ]
 
+const collaborationOptions = [
+  {
+    label: {
+      en: 'XR or immersive heritage project',
+      fr: 'Projet XR ou patrimoine immersif',
+    },
+    copy: {
+      en: 'Build an experience, archive layer, museum media or spatial prototype with a clear production path.',
+      fr: 'Construire une expérience, une couche archive, un média muséal ou un prototype spatial avec un chemin de production clair.',
+    },
+  },
+  {
+    label: { en: 'Unity / VR training', fr: 'Formation Unity / VR' },
+    copy: {
+      en: 'Structure a practical workshop, course block or applied lab for learners entering immersive production.',
+      fr: 'Structurer un atelier pratique, un bloc de cours ou un lab appliqué pour des apprenants en production immersive.',
+    },
+  },
+  {
+    label: { en: 'Panel or mentoring', fr: 'Panel ou mentoring' },
+    copy: {
+      en: 'Join a conversation, review prototypes or guide a team through XR, culture and technical decisions.',
+      fr: 'Intervenir dans un échange, reviewer des prototypes ou guider une équipe sur XR, culture et décisions techniques.',
+    },
+  },
+]
+
 function Home() {
   const { t } = usePreferences()
   const microFolie = featuredProjects[0]
@@ -172,6 +199,48 @@ function Home() {
               </div>
             </div>
           ))}
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-[1480px] px-5 pb-24 md:px-8">
+        <div className="grid gap-10 border-t border-[color:var(--border)] pt-12 lg:grid-cols-[0.9fr_1.1fr]">
+          <div>
+            <SectionEyebrow>
+              {t({ en: 'Work together', fr: 'Travailler ensemble' })}
+            </SectionEyebrow>
+            <h2 className="mt-4 max-w-[11ch] text-5xl font-semibold leading-tight text-[color:var(--ink)] md:text-7xl">
+              {t({
+                en: 'Start with the right format.',
+                fr: 'Partir du bon format.',
+              })}
+            </h2>
+            <Link
+              to="/contact"
+              className="mt-8 inline-flex min-h-12 w-fit items-center justify-center gap-2 rounded-full bg-[color:var(--heritage)] px-6 py-3 text-sm font-semibold text-[color:var(--canvas)] transition hover:-translate-y-0.5 hover:bg-[color:var(--field)] focus:outline-none focus:ring-2 focus:ring-[color:var(--signal)]"
+            >
+              {t({ en: 'Open contact', fr: 'Ouvrir le contact' })}
+              <ArrowUpRight size={17} aria-hidden="true" />
+            </Link>
+          </div>
+
+          <div className="border-y border-[color:var(--border)]">
+            {collaborationOptions.map((option, index) => (
+              <div
+                key={option.label.en}
+                className="grid gap-4 border-b border-[color:var(--border)] py-6 last:border-b-0 md:grid-cols-[0.18fr_0.34fr_0.48fr]"
+              >
+                <p className="font-mono text-xs uppercase tracking-[0.18em] text-[color:var(--heritage)]">
+                  0{index + 1}
+                </p>
+                <h3 className="text-2xl font-semibold text-[color:var(--ink)]">
+                  {t(option.label)}
+                </h3>
+                <p className="text-sm leading-7 text-[color:var(--muted)]">
+                  {t(option.copy)}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
     </PageFrame>

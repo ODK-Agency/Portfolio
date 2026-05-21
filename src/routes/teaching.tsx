@@ -1,4 +1,5 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, Link } from '@tanstack/react-router'
+import { ArrowUpRight } from 'lucide-react'
 
 import { PageFrame, SectionEyebrow } from '#/components/SiteShell'
 import { usePreferences } from '#/lib/preferences'
@@ -9,7 +10,7 @@ export const Route = createFileRoute('/teaching')({
     meta: seoMeta({
       title: 'Formation | Mamadou Oury Diallo',
       description:
-        'Travail de formation Unity, XR et creative technology par Mamadou Oury Diallo.',
+        'Formations Unity, C#, XR et VR par Mamadou Oury Diallo à Dakar, Conakry et dans des programmes panafricains.',
       path: '/teaching',
     }),
     links: seoLinks('/teaching'),
@@ -17,41 +18,126 @@ export const Route = createFileRoute('/teaching')({
   component: TeachingPage,
 })
 
-const teachingProofs = [
+const teachingStats = [
+  {
+    value: '200+',
+    label: {
+      en: 'developers trained in Unity, C# and XR',
+      fr: 'développeurs formés en Unity, C# et XR',
+    },
+  },
+  {
+    value: '17',
+    label: {
+      en: 'African countries reached through Imisi 3D',
+      fr: 'pays africains touchés avec Imisi 3D',
+    },
+  },
+  {
+    value: '3',
+    label: {
+      en: 'MVP teams mentored over three months',
+      fr: 'équipes MVP mentorées sur trois mois',
+    },
+  },
+  {
+    value: '7+',
+    label: {
+      en: 'years building immersive experiences',
+      fr: 'ans de production immersive',
+    },
+  },
+]
+
+const trainingContexts = [
+  {
+    title: { en: 'Imisi 3D AR/VR Metathon', fr: 'Imisi 3D AR/VR Metathon' },
+    meta: {
+      en: '17 countries, Unity VR curriculum, 1:1 mentoring',
+      fr: '17 pays, curriculum Unity VR, mentoring 1:1',
+    },
+    copy: {
+      en: 'Designed and delivered a VR Development on Unity curriculum for francophone learners, then supported teams through MVP development.',
+      fr: 'Conception et animation d’un curriculum VR Development on Unity pour des apprenants francophones, puis accompagnement d’équipes jusqu’au MVP.',
+    },
+  },
+  {
+    title: { en: 'UCAD CURI', fr: 'UCAD CURI' },
+    meta: {
+      en: '3 cohorts, around 60 students',
+      fr: '3 cohortes, environ 60 étudiants',
+    },
+    copy: {
+      en: 'XR training sessions around VR, AR, MR, Unity scenes and headset deployment, with participant projects reviewed along the way.',
+      fr: 'Sessions XR autour de VR, AR, MR, scènes Unity et déploiement casque, avec review des projets participants.',
+    },
+  },
+  {
+    title: { en: 'ESMT Dakar', fr: 'ESMT Dakar' },
+    meta: {
+      en: '2 classes, around 40 students',
+      fr: '2 classes, environ 40 étudiants',
+    },
+    copy: {
+      en: 'Introductory VR sessions built around use cases, interactive demonstrations and student exchanges.',
+      fr: 'Sessions de découverte VR autour des cas d’usage, démonstrations interactives et échanges avec les étudiants.',
+    },
+  },
   {
     title: {
-      en: 'Africa Digital Academy, Conakry',
-      fr: 'Africa Digital Academy, Conakry',
+      en: 'Orange Digital Center Guinea',
+      fr: 'Orange Digital Center Guinea',
     },
     meta: {
-      en: 'Unity course, Orange Digital Center context',
-      fr: 'Cours Unity, contexte Orange Digital Center',
+      en: 'Conakry, around 20 learners',
+      fr: 'Conakry, environ 20 apprenants',
     },
     copy: {
-      en: 'A practical Unity training block built around scene structure, C# logic, interaction loops and prototype confidence for learners moving toward immersive production.',
-      fr: 'Un bloc de formation Unity pratique autour de la structure de scène, de la logique C#, des boucles d’interaction et de la confiance prototype pour des apprenants qui entrent dans la production immersive.',
+      en: 'Game programming and Unity practice for learners entering interactive production.',
+      fr: 'Game programming et pratique Unity pour des apprenants entrant dans la production interactive.',
     },
   },
   {
-    title: { en: 'XR mentoring', fr: 'Mentoring XR' },
-    meta: {
-      en: 'From tool discovery to headset delivery',
-      fr: 'De la découverte outil à la livraison casque',
-    },
+    title: { en: 'UAM Diamniadio', fr: 'UAM Diamniadio' },
+    meta: { en: '2 cohorts', fr: '2 cohortes' },
     copy: {
-      en: 'The teaching work is not only syntax. It connects creative intent, constraints, debugging habits and the production choices that make XR prototypes hold together.',
-      fr: 'Le travail pédagogique ne se limite pas à la syntaxe. Il relie intention créative, contraintes, habitudes de debug et choix de production qui rendent un prototype XR solide.',
+      en: 'University cohort work around XR discovery, technical framing and prototype thinking.',
+      fr: 'Travail de cohorte universitaire autour de la découverte XR, du cadrage technique et de la pensée prototype.',
     },
   },
   {
-    title: { en: 'Program design', fr: 'Design pédagogique' },
+    title: { en: 'ADMI and Go My Code', fr: 'ADMI et Go My Code' },
     meta: {
-      en: 'Courses, reviews, exercises and applied labs',
-      fr: 'Cours, reviews, exercices et labs appliqués',
+      en: 'Game programming and development instruction',
+      fr: 'Formation game programming et game development',
     },
     copy: {
-      en: 'Workshops are shaped around visible progress: one concept, one working scene, one review loop, then a cleaner iteration learners can explain and defend.',
-      fr: 'Les ateliers sont construits autour d’un progrès visible: un concept, une scène fonctionnelle, une boucle de review, puis une itération plus propre que les apprenants peuvent expliquer et défendre.',
+      en: 'Earlier teaching roles that built the foundation for practical Unity, C# and gameplay instruction.',
+      fr: 'Rôles de formation antérieurs qui ont construit la base pédagogique en Unity, C# et gameplay.',
+    },
+  },
+]
+
+const teachingMethods = [
+  {
+    title: { en: 'Build first', fr: 'Construire d’abord' },
+    copy: {
+      en: 'Learners start from a working scene, then add concepts as the prototype needs them.',
+      fr: 'Les apprenants partent d’une scène fonctionnelle, puis ajoutent les concepts quand le prototype en a besoin.',
+    },
+  },
+  {
+    title: { en: 'Debug as a habit', fr: 'Déboguer comme pratique' },
+    copy: {
+      en: 'The course rhythm includes reading errors, isolating causes and building confidence with technical friction.',
+      fr: 'Le rythme pédagogique inclut lecture d’erreurs, isolation des causes et confiance face à la friction technique.',
+    },
+  },
+  {
+    title: { en: 'Prototype to explain', fr: 'Prototyper pour expliquer' },
+    copy: {
+      en: 'A learner should be able to show what they made, explain why it works and defend the next iteration.',
+      fr: 'Un apprenant doit pouvoir montrer ce qu’il a fait, expliquer pourquoi ça fonctionne et défendre l’itération suivante.',
     },
   },
 ]
@@ -74,28 +160,12 @@ const teachingImages = [
     label: { en: 'Learner community', fr: 'Communauté apprenante' },
   },
   {
-    src: '/stills/teaching/orange-digital-context.png',
-    alt: {
-      en: 'Orange Digital Center related visual context.',
-      fr: 'Contexte visuel lié à Orange Digital Center.',
-    },
-    label: { en: 'Conakry teaching context', fr: 'Contexte formation Conakry' },
-  },
-  {
     src: '/stills/teaching/unity-training-screen.png',
     alt: {
       en: 'Unity interface used as visual proof for training work.',
       fr: 'Interface Unity utilisée comme preuve visuelle du travail de formation.',
     },
     label: { en: 'Unity practice', fr: 'Pratique Unity' },
-  },
-  {
-    src: '/stills/teaching/unity-master-screen.png',
-    alt: {
-      en: 'Unity editor capture from training and production material.',
-      fr: 'Capture éditeur Unity issue de matières de formation et production.',
-    },
-    label: { en: 'Production habits', fr: 'Habitudes production' },
   },
 ]
 
@@ -108,44 +178,67 @@ function TeachingPage() {
         <div className="min-w-0 lg:sticky lg:top-28 lg:self-start">
           <SectionEyebrow>
             {t({
-              en: 'Teaching and program work',
-              fr: 'Formation et programmes',
+              en: 'Unity and XR teaching',
+              fr: 'Formation Unity et XR',
             })}
           </SectionEyebrow>
-          <h1 className="mt-5 max-w-[8.5ch] text-[clamp(2.65rem,10.4vw,6rem)] font-semibold leading-[0.95] text-[color:var(--ink)] md:max-w-[10ch] md:text-8xl">
+          <h1 className="mt-5 max-w-[9.5ch] text-[clamp(2.65rem,10.4vw,6rem)] font-semibold leading-[0.95] text-[color:var(--ink)] md:text-8xl">
             {t({
-              en: 'Turning tools into practice.',
-              fr: 'Transformer les outils en pratique.',
+              en: 'From syntax to working prototypes.',
+              fr: 'De la syntaxe au prototype fonctionnel.',
             })}
           </h1>
-          <p className="mt-7 max-w-[31ch] text-lg leading-8 text-[color:var(--muted)] sm:max-w-[58ch]">
+          <p className="mt-7 max-w-[58ch] text-lg leading-8 text-[color:var(--muted)]">
             {t({
-              en: 'The teaching side of the portfolio proves the same thing as the XR work: Mamadou Oury Diallo makes complex systems understandable, usable and ready for people who need to build with them.',
-              fr: 'La partie formation du portfolio prouve la même chose que le travail XR: Mamadou Oury Diallo rend des systèmes complexes compréhensibles, utilisables et prêts pour des personnes qui doivent construire avec.',
+              en: 'Training 200+ developers across Unity, C#, XR and prototype production, with cohorts in Dakar, Conakry and pan-African programs.',
+              fr: 'Plus de 200 développeurs formés à Unity, C#, XR et à la production de prototypes, avec des cohortes à Dakar, Conakry et dans des programmes panafricains.',
             })}
           </p>
+          <Link
+            to="/contact"
+            className="mt-8 inline-flex min-h-12 w-fit items-center gap-2 rounded-full bg-[color:var(--heritage)] px-6 py-3 text-sm font-semibold text-[color:var(--canvas)] transition hover:-translate-y-0.5 hover:bg-[color:var(--field)] focus:outline-none focus:ring-2 focus:ring-[color:var(--signal)]"
+          >
+            {t({
+              en: 'Build a training program',
+              fr: 'Construire une formation',
+            })}
+            <ArrowUpRight size={17} aria-hidden="true" />
+          </Link>
         </div>
 
-        <div className="grid min-w-0 gap-5">
+        <div className="grid min-w-0 gap-8">
+          <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+            {teachingStats.map((stat) => (
+              <div
+                key={stat.value}
+                className="border-t border-[color:var(--border)] pt-5"
+              >
+                <p className="text-4xl font-semibold text-[color:var(--ink)]">
+                  {stat.value}
+                </p>
+                <p className="mt-3 text-sm leading-6 text-[color:var(--muted)]">
+                  {t(stat.label)}
+                </p>
+              </div>
+            ))}
+          </div>
+
           <div className="teaching-gallery grid gap-4 md:grid-cols-12">
             {teachingImages.map((image, index) => (
               <figure
                 key={image.src}
                 className={[
                   'overflow-hidden rounded-[2rem] border border-[color:var(--border)] bg-[color:var(--surface)]',
-                  index === 0 ? 'md:col-span-7 md:row-span-2' : 'md:col-span-5',
+                  index === 0 ? 'md:col-span-6' : 'md:col-span-3',
                 ].join(' ')}
               >
                 <img
                   src={image.src}
                   alt={image.alt[locale]}
-                  width={index === 0 ? 1200 : 1600}
-                  height={index === 0 ? 1500 : 1000}
+                  width={1600}
+                  height={1000}
                   decoding="async"
-                  className={[
-                    'w-full object-cover',
-                    index === 0 ? 'aspect-[4/5] h-full' : 'aspect-[16/10]',
-                  ].join(' ')}
+                  className="aspect-[16/11] w-full object-cover"
                   loading={index === 0 ? 'eager' : 'lazy'}
                 />
                 <figcaption className="border-t border-[color:var(--border)] px-4 py-3 font-mono text-[10px] uppercase tracking-[0.16em] text-[color:var(--muted)]">
@@ -155,25 +248,39 @@ function TeachingPage() {
             ))}
           </div>
 
-          <div className="grid gap-3">
-            {teachingProofs.map((proof, index) => (
+          <div className="grid gap-4 md:grid-cols-2">
+            {trainingContexts.map((context) => (
               <article
-                key={proof.title.en}
-                className="grid gap-5 border-t border-[color:var(--border)] py-6 md:grid-cols-[0.18fr_0.32fr_0.5fr]"
+                key={context.title.en}
+                className="rounded-[1.5rem] border border-[color:var(--border)] bg-[color:var(--surface)] p-5"
+              >
+                <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[color:var(--heritage)]">
+                  {t(context.meta)}
+                </p>
+                <h2 className="mt-4 text-2xl font-semibold text-[color:var(--ink)]">
+                  {t(context.title)}
+                </h2>
+                <p className="mt-3 text-sm leading-7 text-[color:var(--muted)]">
+                  {t(context.copy)}
+                </p>
+              </article>
+            ))}
+          </div>
+
+          <div className="border-y border-[color:var(--border)]">
+            {teachingMethods.map((method, index) => (
+              <article
+                key={method.title.en}
+                className="grid gap-4 border-b border-[color:var(--border)] py-6 last:border-b-0 md:grid-cols-[0.16fr_0.3fr_0.54fr]"
               >
                 <p className="font-mono text-xs uppercase tracking-[0.18em] text-[color:var(--heritage)]">
                   0{index + 1}
                 </p>
-                <div>
-                  <h2 className="text-2xl font-semibold text-[color:var(--ink)]">
-                    {t(proof.title)}
-                  </h2>
-                  <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.14em] text-[color:var(--muted)]">
-                    {t(proof.meta)}
-                  </p>
-                </div>
-                <p className="max-w-[68ch] text-sm leading-7 text-[color:var(--muted)]">
-                  {t(proof.copy)}
+                <h2 className="text-2xl font-semibold text-[color:var(--ink)]">
+                  {t(method.title)}
+                </h2>
+                <p className="text-sm leading-7 text-[color:var(--muted)]">
+                  {t(method.copy)}
                 </p>
               </article>
             ))}

@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as WorkRouteImport } from './routes/work'
 import { Route as TeachingRouteImport } from './routes/teaching'
+import { Route as SpeakingRouteImport } from './routes/speaking'
 import { Route as FieldArchiveRouteImport } from './routes/field-archive'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AboutRouteImport } from './routes/about'
@@ -25,6 +26,11 @@ const WorkRoute = WorkRouteImport.update({
 const TeachingRoute = TeachingRouteImport.update({
   id: '/teaching',
   path: '/teaching',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SpeakingRoute = SpeakingRouteImport.update({
+  id: '/speaking',
+  path: '/speaking',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FieldArchiveRoute = FieldArchiveRouteImport.update({
@@ -58,6 +64,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
   '/field-archive': typeof FieldArchiveRoute
+  '/speaking': typeof SpeakingRoute
   '/teaching': typeof TeachingRoute
   '/work': typeof WorkRouteWithChildren
   '/work/$slug': typeof WorkSlugRoute
@@ -67,6 +74,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
   '/field-archive': typeof FieldArchiveRoute
+  '/speaking': typeof SpeakingRoute
   '/teaching': typeof TeachingRoute
   '/work': typeof WorkRouteWithChildren
   '/work/$slug': typeof WorkSlugRoute
@@ -77,6 +85,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
   '/field-archive': typeof FieldArchiveRoute
+  '/speaking': typeof SpeakingRoute
   '/teaching': typeof TeachingRoute
   '/work': typeof WorkRouteWithChildren
   '/work/$slug': typeof WorkSlugRoute
@@ -88,6 +97,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/contact'
     | '/field-archive'
+    | '/speaking'
     | '/teaching'
     | '/work'
     | '/work/$slug'
@@ -97,6 +107,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/contact'
     | '/field-archive'
+    | '/speaking'
     | '/teaching'
     | '/work'
     | '/work/$slug'
@@ -106,6 +117,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/contact'
     | '/field-archive'
+    | '/speaking'
     | '/teaching'
     | '/work'
     | '/work/$slug'
@@ -116,6 +128,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   ContactRoute: typeof ContactRoute
   FieldArchiveRoute: typeof FieldArchiveRoute
+  SpeakingRoute: typeof SpeakingRoute
   TeachingRoute: typeof TeachingRoute
   WorkRoute: typeof WorkRouteWithChildren
 }
@@ -134,6 +147,13 @@ declare module '@tanstack/react-router' {
       path: '/teaching'
       fullPath: '/teaching'
       preLoaderRoute: typeof TeachingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/speaking': {
+      id: '/speaking'
+      path: '/speaking'
+      fullPath: '/speaking'
+      preLoaderRoute: typeof SpeakingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/field-archive': {
@@ -189,6 +209,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   ContactRoute: ContactRoute,
   FieldArchiveRoute: FieldArchiveRoute,
+  SpeakingRoute: SpeakingRoute,
   TeachingRoute: TeachingRoute,
   WorkRoute: WorkRouteWithChildren,
 }

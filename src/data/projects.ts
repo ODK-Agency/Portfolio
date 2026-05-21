@@ -44,6 +44,8 @@ export type PortfolioProject = {
   coverAlt: LocalizedText
   media: MediaItem[]
   caseStudySections?: {
+    origin?: LocalizedText
+    experience?: LocalizedText
     challenge: LocalizedText
     contribution: LocalizedText
     proof: LocalizedText
@@ -120,16 +122,16 @@ export const portfolioProjects: PortfolioProject[] = [
     featured: true,
     kinds: ['heritage', 'creative-tech'],
     summary: {
-      en: 'Digital heritage work around museum material, cultural mediation and artwork digitization with institutional partners.',
-      fr: "Travail de patrimoine numérique autour de contenus muséaux, de médiation culturelle et de numérisation d'oeuvres avec des partenaires institutionnels.",
+      en: 'A digital heritage and mediation project built around museum objects, youth audiences and public cultural access.',
+      fr: "Un projet de patrimoine numérique et de médiation autour d'objets muséaux, de publics jeunesse et d'accès culturel public.",
     },
     role: {
-      en: 'Digital production support, XR builder and technical mediator.',
-      fr: 'Appui production numérique, développeur XR et médiateur technique.',
+      en: 'XR developer, digital production contributor and technical mediation support.',
+      fr: 'Développeur XR, contributeur production numérique et appui médiation technique.',
     },
     impact: {
-      en: 'Helped prepare cultural material for reliable digital use, mediation workflows and public-facing presentation.',
-      fr: 'A aidé à préparer des contenus culturels pour des usages numériques fiables, des workflows de médiation et une présentation publique.',
+      en: 'Contributed to making cultural material accessible through digitization, categorized object selections and mediation formats for young and general audiences.',
+      fr: "Contribution à l'accessibilité de contenus culturels par la numérisation, la sélection d'objets par catégories et des formats de médiation pour publics jeunesse et grand public.",
     },
     stack: ['Digital heritage', 'Media production', 'Mediation', 'XR context'],
     partners: ['Institut français', 'Musée Théodore Monod', 'ASHIA'],
@@ -140,54 +142,39 @@ export const portfolioProjects: PortfolioProject[] = [
       fr: 'Direction visuelle éditoriale mêlant patrimoine et fragments d’interface XR.',
     },
     media: [
-      video(
-        'langa-bouri-labyrinth-video',
-        {
-          en: 'Labyrinth prototype video',
-          fr: 'Vidéo prototype labyrinthe',
-        },
-        r2('Langa%20Update%20Labrynth%2004-11.mp4'),
-        '/stills/projects/langa-bouri-labyrinth-1.jpg',
-        {
-          en: 'Gameplay video from the Langa Bouri VR labyrinth prototype.',
-          fr: 'Vidéo gameplay du prototype labyrinthe VR Langa Bouri.',
-        },
-      ),
-      video(
-        'langa-bouri-demo-video',
-        { en: 'Early VR demo', fr: 'Démo VR initiale' },
-        r2('Langa%20Bouri%20Demo.mp4'),
-        '/stills/projects/langa-bouri-4.jpg',
-        {
-          en: 'Early demo video from the Langa Bouri VR heritage project.',
-          fr: 'Vidéo démo initiale du projet patrimonial VR Langa Bouri.',
-        },
-      ),
       image(
         'micro-folie-direction',
         {
-          en: 'Digital heritage direction',
-          fr: 'Direction patrimoine numérique',
+          en: 'Digital heritage mediation direction',
+          fr: 'Direction médiation patrimoine numérique',
         },
         '/stills/hybrid-direction.png',
         {
-          en: 'Visual direction for a digital heritage workflow around cultural material and XR interfaces.',
-          fr: 'Direction visuelle pour un workflow de patrimoine numérique autour de contenus culturels et interfaces XR.',
+          en: 'Visual direction for a digital heritage workflow around museum objects, cultural mediation and XR interfaces.',
+          fr: 'Direction visuelle pour un workflow de patrimoine numérique autour d’objets muséaux, de médiation culturelle et interfaces XR.',
         },
       ),
     ],
     caseStudySections: {
+      origin: {
+        en: 'The project comes from Micro-Folie Dakar work with institutional partners around museum collections, digitized objects and mediation material for visitors.',
+        fr: 'Le projet vient du travail Micro-Folie Dakar avec des partenaires institutionnels autour de collections muséales, objets numérisés et matières de médiation pour les visiteurs.',
+      },
+      experience: {
+        en: 'The public-facing goal is to turn selected museum objects into readable cultural material: categorized, narrated and prepared for young audiences, families and cultural mediation sessions.',
+        fr: "L'objectif public est de transformer des objets muséaux sélectionnés en matière culturelle lisible: catégorisée, racontée et préparée pour des publics jeunes, familles et sessions de médiation.",
+      },
       challenge: {
         en: 'Prepare museum material for digital mediation without reducing it to decorative content or overstating the technical scope.',
         fr: 'Préparer des contenus muséaux pour la médiation numérique sans les réduire à de la décoration ni exagérer le périmètre technique.',
       },
       contribution: {
-        en: 'Supported asset recovery, media preparation and video production work inside a collective institutional project.',
-        fr: 'Appui à la récupération des assets, à la préparation média et à la production vidéo dans un projet institutionnel collectif.',
+        en: 'Supported object selection, asset preparation, digital production and technical mediation inside a collective institutional project. Source categories include design, power, mobility, music, medicine, cosmology, games and sport.',
+        fr: "Appui à la sélection d'objets, préparation des assets, production numérique et médiation technique dans un projet institutionnel collectif. Les catégories sources couvrent design, pouvoir, mobilité, musique, médecine, cosmogonie, jeux et sport.",
       },
       proof: {
-        en: 'Institut français, Musée Théodore Monod, ASHIA and production artifacts support a restrained public case study.',
-        fr: 'Institut français, Musée Théodore Monod, ASHIA et les artefacts de production soutiennent une étude de cas publique mesurée.',
+        en: 'Institut français, Musée Théodore Monod, ASHIA, the Micro-Folie object folders and the Glèlè / Dahomey creative brief support a restrained public case study. Additional visuals can be published after rights validation.',
+        fr: "Institut français, Musée Théodore Monod, ASHIA, les dossiers d'objets Micro-Folie et le cahier de charge Glèlè / Dahomey soutiennent une étude de cas publique mesurée. Les visuels supplémentaires pourront être publiés après validation des droits.",
       },
     },
   },
@@ -195,21 +182,21 @@ export const portfolioProjects: PortfolioProject[] = [
     slug: 'langa-bouri',
     title: 'Langa Bouri',
     year: '2022',
-    location: 'Guinea',
+    location: 'Sénégal',
     status: 'published',
     featured: true,
     kinds: ['heritage', 'xr'],
     summary: {
-      en: 'A VR heritage experience built with Unity around African history, exploration and immersive storytelling.',
-      fr: "Une expérience patrimoniale VR construite avec Unity autour de l'histoire africaine, de l'exploration et du storytelling immersif.",
+      en: 'A VR adaptation of a Senegalese childhood game, created to preserve a playful memory many young people no longer know.',
+      fr: "Une adaptation VR d'un jeu d'enfance sénégalais, créée pour préserver une mémoire ludique que beaucoup de jeunes ne connaissent plus.",
     },
     role: {
       en: 'Lead Unity developer and creative technologist.',
       fr: 'Développeur Unity principal et creative technologist.',
     },
     impact: {
-      en: 'Explored how African history and cultural narratives can become navigable VR experiences.',
-      fr: "A exploré comment l'histoire africaine et les récits culturels peuvent devenir des expériences VR navigables.",
+      en: 'Turns local play culture into an immersive experience that can be discovered beyond its original generation and geography.',
+      fr: "Transforme une culture de jeu locale en expérience immersive découvrable au-delà de sa génération et de son territoire d'origine.",
     },
     stack: ['Unity', 'C#', 'VR', 'Quest logic', 'Spatial storytelling'],
     partners: ['Studio Amanirenas'],
@@ -249,9 +236,17 @@ export const portfolioProjects: PortfolioProject[] = [
       ),
     ],
     caseStudySections: {
+      origin: {
+        en: 'Langa Bouri comes from a game played by children in Senegal. The project exists because this kind of everyday memory can disappear when it is not transmitted.',
+        fr: "Langa Bouri vient d'un jeu auquel les enfants jouaient au Sénégal. Le projet existe parce que ce type de mémoire quotidienne peut disparaître quand elle n'est plus transmise.",
+      },
+      experience: {
+        en: 'The VR version lets people enter the logic of the game, explore its space and understand it as living culture rather than a museum label.',
+        fr: "La version VR permet d'entrer dans la logique du jeu, d'explorer son espace et de le comprendre comme culture vivante plutôt que comme simple notice patrimoniale.",
+      },
       challenge: {
-        en: 'Translate a culturally rooted narrative into an interactive VR form while keeping the work respectful, legible and technically stable.',
-        fr: 'Traduire un récit culturel en forme VR interactive tout en gardant une approche respectueuse, lisible et techniquement stable.',
+        en: 'Translate an oral and playful memory into an interactive VR form while keeping it readable, respectful and technically stable.',
+        fr: 'Traduire une mémoire orale et ludique en forme VR interactive tout en la gardant lisible, respectueuse et techniquement stable.',
       },
       contribution: {
         en: 'Led the Unity development path, built scene logic, VR navigation, quest flow and interactive structures for the experience.',
@@ -272,19 +267,19 @@ export const portfolioProjects: PortfolioProject[] = [
     featured: true,
     kinds: ['xr', 'creative-tech'],
     summary: {
-      en: 'A Unity VR action prototype focused on hand interactions, onboarding, wave-based gameplay and fast player feedback.',
-      fr: 'Un prototype d’action VR Unity centré sur les interactions main, l’onboarding, les vagues d’ennemis et le feedback joueur rapide.',
+      en: 'A client VR game inspired by a truck scene from La Grande Vadrouille, created for a Louis de Funès museum experience in France.',
+      fr: "Un jeu VR client inspiré d'une scène de camion de La Grande Vadrouille, créé pour une expérience du musée Louis de Funès en France.",
     },
     role: {
       en: 'Sole Unity developer in consultancy with E-Mage, under project direction by Sylvain Pellegrino.',
       fr: 'Seul développeur Unity en consultance avec E-Mage, sous direction projet de Sylvain Pellegrino.',
     },
     impact: {
-      en: 'Demonstrated the ability to turn a VR game concept into a playable headset experience with interaction feel.',
-      fr: 'A démontré la capacité à transformer un concept de jeu VR en expérience casque jouable avec sensation d’interaction.',
+      en: 'Lets visitors step into a cult French comedy reference and physically play through a cinematic moment in headset.',
+      fr: "Permet aux visiteurs d'entrer dans une référence culte du cinéma comique français et de jouer physiquement un moment de film en casque.",
     },
     stack: ['Unity', 'C#', 'VR', 'Meta Quest', 'Interaction design'],
-    partners: ['E-Mage', 'Sylvain Pellegrino'],
+    partners: ['3DUCATION.fr', 'IMPACT3D.fr', 'E-Mage', 'Sylvain Pellegrino'],
     tags: ['VR', 'Unity', 'headset', 'interaction'],
     cover: '/stills/projects/grande-vadrouille-1.jpg',
     coverAlt: {
@@ -334,17 +329,25 @@ export const portfolioProjects: PortfolioProject[] = [
       ),
     ],
     caseStudySections: {
+      origin: {
+        en: 'The project draws from La Grande Vadrouille and its truck sequence, where comedy, movement and thrown objects become a playful scene to reinterpret in VR.',
+        fr: 'Le projet vient de La Grande Vadrouille et de sa séquence du camion, où comédie, mouvement et objets lancés deviennent une scène ludique à réinterpréter en VR.',
+      },
+      experience: {
+        en: 'The visitor is placed inside a fast, readable VR sequence: throw pumpkins, react to enemies, move from gameplay into cutscene and feel the timing of the scene.',
+        fr: 'Le visiteur est placé dans une séquence VR rapide et lisible: lancer des citrouilles, réagir aux ennemis, passer du gameplay à la cutscene et ressentir le rythme de la scène.',
+      },
       challenge: {
-        en: 'Build a VR action prototype that feels immediate in headset, with clear onboarding, embodied controls and responsive gameplay loops.',
-        fr: 'Construire un prototype d’action VR immédiat en casque, avec onboarding clair, contrôles incarnés et boucles gameplay réactives.',
+        en: 'Adapt a recognizable cinematic reference into a headset interaction that feels immediate, playful and stable on Quest 3 with Quest 2 compatibility.',
+        fr: 'Adapter une référence cinématographique identifiable en interaction casque immédiate, ludique et stable sur Quest 3 avec compatibilité Quest 2.',
       },
       contribution: {
         en: 'Developed the Unity gameplay systems, hand interactions, player feedback, scene flow and headset-ready implementation.',
         fr: 'Développement des systèmes gameplay Unity, interactions main, feedback joueur, flux de scènes et implémentation prête casque.',
       },
       proof: {
-        en: 'Local gameplay video and extracted stills demonstrate the delivered VR interaction work.',
-        fr: 'La vidéo gameplay locale et les captures extraites démontrent le travail d’interaction VR livré.',
+        en: 'LinkedIn featured post, gameplay video and extracted stills demonstrate the delivered VR interaction work for 3DUCATION.fr and IMPACT3D.fr.',
+        fr: 'Le post LinkedIn en sélection, la vidéo gameplay et les captures extraites démontrent le travail d’interaction VR livré pour 3DUCATION.fr et IMPACT3D.fr.',
       },
     },
   },
@@ -365,8 +368,8 @@ export const portfolioProjects: PortfolioProject[] = [
       fr: 'Opérateur captation 360, curateur d’archive de terrain et responsable intégration web.',
     },
     impact: {
-      en: 'Creates spatial evidence that can support cultural storytelling, research, mediation and immersive exhibition formats.',
-      fr: 'Crée des preuves spatiales utiles au récit culturel, à la recherche, à la médiation et aux formats d’exposition immersive.',
+      en: 'Creates a base for national heritage platforms, digital museum programs and cultural mediation initiatives in West Africa.',
+      fr: 'Crée une base utilisable pour des plateformes patrimoniales nationales, des programmes muséaux numériques et des initiatives de médiation culturelle en Afrique de l’Ouest.',
     },
     stack: ['360 capture', 'Spatial viewer', 'Progressive media', 'Web'],
     tags: ['360', 'field archive', 'Guinea', 'spatial media'],
@@ -465,6 +468,14 @@ export const portfolioProjects: PortfolioProject[] = [
       ),
     ],
     caseStudySections: {
+      origin: {
+        en: 'The archive is rooted in Guinea and in a family connection to Fouta Djallon, Korbé and pulaar memory.',
+        fr: "L'archive est ancrée en Guinée et dans un lien familial au Fouta Djallon, à Korbé et à la mémoire pulaar.",
+      },
+      experience: {
+        en: 'Visitors can enter real field locations through 360 views, not as decoration but as spatial evidence for future heritage work.',
+        fr: 'Les visiteurs peuvent entrer dans des lieux terrain réels via des vues 360, non comme décoration mais comme preuve spatiale pour de futurs travaux patrimoniaux.',
+      },
       challenge: {
         en: 'Capture real places with enough care that they remain useful as archive material, not only visual atmosphere.',
         fr: 'Capter des lieux réels avec assez de soin pour qu’ils restent utiles comme archive, pas seulement comme ambiance visuelle.',
@@ -488,16 +499,16 @@ export const portfolioProjects: PortfolioProject[] = [
     featured: true,
     kinds: ['simulation', 'xr', 'training'],
     summary: {
-      en: 'An immersive VR safety training experience for port operations, PPE workflows, crisis situations and hazardous material scenarios.',
-      fr: 'Une expérience immersive de formation sécurité VR pour opérations portuaires, EPI, situations de crise et scénarios de matières dangereuses.',
+      en: 'A VR safety training application that places learners inside port operations, PPE workflows and risk situations.',
+      fr: 'Une application VR de formation sécurité qui place les apprenants dans des opérations portuaires, workflows EPI et situations à risque.',
     },
     role: {
       en: 'VR structure, scene flow, interaction logic and Quest deployment pipeline.',
       fr: 'Structure VR, flux de scènes, logique d’interaction et pipeline de déploiement Quest.',
     },
     impact: {
-      en: 'Positions VR as a practical training tool for procedures, environments and repeatable operational scenarios.',
-      fr: 'Positionne la VR comme outil concret de formation aux procédures, environnements et scénarios opérationnels répétables.',
+      en: 'Turns safety procedures into embodied practice so learners can recognize risks before facing them in the field.',
+      fr: 'Transforme les procédures de sécurité en pratique incarnée pour que les apprenants reconnaissent les risques avant le terrain.',
     },
     stack: ['Unity', 'C#', 'VR training', 'Meta Quest'],
     partners: ['Metafrik'],
@@ -550,6 +561,14 @@ export const portfolioProjects: PortfolioProject[] = [
       ),
     ],
     caseStudySections: {
+      origin: {
+        en: 'PortSafe VR was created for a practical training need: port safety is physical, procedural and easier to understand when learners can rehearse situations in context.',
+        fr: 'PortSafe VR a été créé pour un besoin de formation concret: la sécurité portuaire est physique, procédurale et plus facile à comprendre quand les apprenants répètent les situations en contexte.',
+      },
+      experience: {
+        en: 'The learner enters a port environment, checks protective equipment, follows scenario logic and practices responses to operational risks.',
+        fr: "L'apprenant entre dans un environnement portuaire, vérifie les équipements de protection, suit une logique de scénario et pratique les réponses aux risques opérationnels.",
+      },
       challenge: {
         en: 'Turn industrial safety procedures into an immersive sequence that can be understood, repeated and assessed.',
         fr: 'Transformer des procédures de sécurité industrielle en séquence immersive compréhensible, répétable et évaluable.',
@@ -658,11 +677,14 @@ export const portfolioProjects: PortfolioProject[] = [
     },
     stack: ['Unity', 'C#', 'XR pedagogy', 'Mentoring'],
     partners: [
-      'Africa Digital Academy',
-      'Orange Digital Center',
-      'Self Employed',
+      'UCAD CURI',
+      'ESMT Dakar',
+      'Orange Digital Center Guinea',
+      'Imisi 3D',
+      'ADMI',
+      'Go My Code',
     ],
-    tags: ['teaching', 'Unity', 'Conakry', 'education'],
+    tags: ['teaching', 'Unity', 'XR', 'education'],
     cover: '/stills/mcp-unity.jpg',
     coverAlt: {
       en: 'Unity workflow still used for the training and lab section.',
@@ -695,6 +717,14 @@ export const portfolioProjects: PortfolioProject[] = [
       ),
     ],
     caseStudySections: {
+      origin: {
+        en: 'The programs answer a recurring gap in XR learning: many learners can follow tutorials, but need structure and review to build their own working projects.',
+        fr: "Les programmes répondent à un manque récurrent dans l'apprentissage XR: beaucoup d'apprenants peuvent suivre des tutoriels, mais ont besoin de structure et de review pour construire leurs propres projets.",
+      },
+      experience: {
+        en: 'Learners move through live sessions, recorded material, exercises, reviews and mentoring until they can explain, improve and ship a small prototype.',
+        fr: "Les apprenants passent par sessions live, contenus enregistrés, exercices, reviews et mentoring jusqu'à pouvoir expliquer, améliorer et livrer un petit prototype.",
+      },
       challenge: {
         en: 'Teach immersive production in a way that balances fundamentals, hands-on practice and confidence with professional tools.',
         fr: 'Enseigner la production immersive en équilibrant fondamentaux, pratique concrète et confiance avec les outils professionnels.',

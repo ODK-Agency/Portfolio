@@ -109,6 +109,18 @@ function WorkDetailPage() {
 
         <section className="mx-auto grid max-w-[1480px] gap-10 px-5 py-20 md:px-8 lg:grid-cols-[0.85fr_1.15fr]">
           <div className="space-y-8 lg:sticky lg:top-28 lg:self-start">
+            {project.caseStudySections?.origin ? (
+              <NarrativeBlock
+                title={t({ en: 'Origin', fr: 'Origine' })}
+                copy={t(project.caseStudySections.origin)}
+              />
+            ) : null}
+            {project.caseStudySections?.experience ? (
+              <NarrativeBlock
+                title={t({ en: 'Experience', fr: 'Expérience' })}
+                copy={t(project.caseStudySections.experience)}
+              />
+            ) : null}
             <NarrativeBlock
               title={t({ en: 'Impact', fr: 'Impact' })}
               copy={t(project.impact)}

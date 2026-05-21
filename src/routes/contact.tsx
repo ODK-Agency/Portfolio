@@ -74,6 +74,12 @@ function ContactPage() {
                 fr: 'Pour les projets XR, patrimoine et production Unity.',
               })}
             </p>
+            <p className="mt-4 max-w-[44ch] text-sm leading-6 text-[color:var(--muted)]">
+              {t({
+                en: 'Response within two business days, Dakar time.',
+                fr: 'Réponse sous deux jours ouvrés, fuseau Dakar.',
+              })}
+            </p>
             <a
               href={`mailto:${profile.email}`}
               className="mt-8 inline-flex max-w-full min-w-0 items-center gap-3 text-[clamp(1rem,4.2vw,1.875rem)] font-semibold text-[color:var(--ink)] underline decoration-[color:var(--heritage)] decoration-2 underline-offset-8"
@@ -147,6 +153,9 @@ function ContactPage() {
                 </option>
                 <option className="bg-[oklch(0.96_0.01_82)] text-[oklch(0.18_0.02_158)]">
                   Museum / heritage
+                </option>
+                <option className="bg-[oklch(0.96_0.01_82)] text-[oklch(0.18_0.02_158)]">
+                  Panel / mentoring
                 </option>
                 <option className="bg-[oklch(0.96_0.01_82)] text-[oklch(0.18_0.02_158)]">
                   360 field media

@@ -76,6 +76,11 @@ const workingNotes = [
   },
 ]
 
+const anchorCopy = {
+  en: 'Oury is Peul from Fouta Djallon, originally from Korbé in Guinea, and based in Dakar. A native Pulaar speaker, comfortable in French and English, he works from a Senegal and Guinea anchor that shapes the heritage, field capture and institutional mediation layer.',
+  fr: 'Oury est Peul du Fouta Djallon, originaire de Korbé en Guinée, basé à Dakar. Locuteur natif Pulaar, à l’aise en français et en anglais, il travaille depuis un ancrage Sénégal et Guinée qui structure le patrimoine, les captations terrain et la médiation institutionnelle.',
+}
+
 function AboutPage() {
   const { t } = usePreferences()
 
@@ -200,6 +205,15 @@ function AboutPage() {
             </p>
           </div>
 
+          <div className="rounded-[2rem] border border-[color:var(--border)] bg-[color:var(--surface)] p-6">
+            <SectionEyebrow>
+              {t({ en: 'Anchor', fr: 'Ancrage' })}
+            </SectionEyebrow>
+            <p className="mt-4 max-w-[68ch] text-lg leading-8 text-[color:var(--ink)]">
+              {t(anchorCopy)}
+            </p>
+          </div>
+
           <div className="grid gap-4 md:grid-cols-3">
             {workingNotes.map((note) => (
               <div
@@ -214,6 +228,26 @@ function AboutPage() {
                 </p>
               </div>
             ))}
+          </div>
+
+          <div className="flex flex-wrap gap-3">
+            <Link
+              to="/teaching"
+              className="inline-flex min-h-11 items-center gap-2 rounded-full border border-[color:var(--border)] bg-[color:var(--surface)] px-5 py-3 text-sm font-semibold text-[color:var(--ink)] transition hover:-translate-y-0.5 hover:border-[color:var(--heritage)] focus:outline-none focus:ring-2 focus:ring-[color:var(--signal)]"
+            >
+              {t({ en: 'Teaching work', fr: 'Travail formation' })}
+              <ArrowUpRight size={16} aria-hidden="true" />
+            </Link>
+            <Link
+              to="/speaking"
+              className="inline-flex min-h-11 items-center gap-2 rounded-full border border-[color:var(--border)] bg-[color:var(--surface)] px-5 py-3 text-sm font-semibold text-[color:var(--ink)] transition hover:-translate-y-0.5 hover:border-[color:var(--heritage)] focus:outline-none focus:ring-2 focus:ring-[color:var(--signal)]"
+            >
+              {t({
+                en: 'Speaking and mentoring',
+                fr: 'Interventions et mentoring',
+              })}
+              <ArrowUpRight size={16} aria-hidden="true" />
+            </Link>
           </div>
         </div>
       </section>

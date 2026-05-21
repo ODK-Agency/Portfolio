@@ -9,8 +9,9 @@ import { usePreferences } from '#/lib/preferences'
 const navItems = [
   { label: { en: 'Work', fr: 'Projets' }, to: '/work' },
   { label: { en: 'Teaching', fr: 'Formation' }, to: '/teaching' },
+  { label: { en: 'Speaking', fr: 'Interventions' }, to: '/speaking' },
   {
-    label: { en: 'Field Archive', fr: 'Archive terrain' },
+    label: { en: 'Archive', fr: 'Archive' },
     to: '/field-archive',
   },
   { label: { en: 'About', fr: 'À propos' }, to: '/about' },
