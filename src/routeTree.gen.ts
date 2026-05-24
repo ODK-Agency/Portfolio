@@ -17,6 +17,7 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as WorkSlugRouteImport } from './routes/work.$slug'
+import { Route as ApiContactRouteImport } from './routes/api.contact'
 
 const WorkRoute = WorkRouteImport.update({
   id: '/work',
@@ -58,6 +59,11 @@ const WorkSlugRoute = WorkSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => WorkRoute,
 } as any)
+const ApiContactRoute = ApiContactRouteImport.update({
+  id: '/api/contact',
+  path: '/api/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -67,6 +73,7 @@ export interface FileRoutesByFullPath {
   '/speaking': typeof SpeakingRoute
   '/teaching': typeof TeachingRoute
   '/work': typeof WorkRouteWithChildren
+  '/api/contact': typeof ApiContactRoute
   '/work/$slug': typeof WorkSlugRoute
 }
 export interface FileRoutesByTo {
@@ -77,6 +84,7 @@ export interface FileRoutesByTo {
   '/speaking': typeof SpeakingRoute
   '/teaching': typeof TeachingRoute
   '/work': typeof WorkRouteWithChildren
+  '/api/contact': typeof ApiContactRoute
   '/work/$slug': typeof WorkSlugRoute
 }
 export interface FileRoutesById {
@@ -88,6 +96,7 @@ export interface FileRoutesById {
   '/speaking': typeof SpeakingRoute
   '/teaching': typeof TeachingRoute
   '/work': typeof WorkRouteWithChildren
+  '/api/contact': typeof ApiContactRoute
   '/work/$slug': typeof WorkSlugRoute
 }
 export interface FileRouteTypes {
@@ -100,6 +109,7 @@ export interface FileRouteTypes {
     | '/speaking'
     | '/teaching'
     | '/work'
+    | '/api/contact'
     | '/work/$slug'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -110,6 +120,7 @@ export interface FileRouteTypes {
     | '/speaking'
     | '/teaching'
     | '/work'
+    | '/api/contact'
     | '/work/$slug'
   id:
     | '__root__'
@@ -120,6 +131,7 @@ export interface FileRouteTypes {
     | '/speaking'
     | '/teaching'
     | '/work'
+    | '/api/contact'
     | '/work/$slug'
   fileRoutesById: FileRoutesById
 }
@@ -131,6 +143,7 @@ export interface RootRouteChildren {
   SpeakingRoute: typeof SpeakingRoute
   TeachingRoute: typeof TeachingRoute
   WorkRoute: typeof WorkRouteWithChildren
+  ApiContactRoute: typeof ApiContactRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -191,6 +204,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WorkSlugRouteImport
       parentRoute: typeof WorkRoute
     }
+    '/api/contact': {
+      id: '/api/contact'
+      path: '/api/contact'
+      fullPath: '/api/contact'
+      preLoaderRoute: typeof ApiContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -212,6 +232,7 @@ const rootRouteChildren: RootRouteChildren = {
   SpeakingRoute: SpeakingRoute,
   TeachingRoute: TeachingRoute,
   WorkRoute: WorkRouteWithChildren,
+  ApiContactRoute: ApiContactRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

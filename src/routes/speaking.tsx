@@ -154,6 +154,30 @@ function SpeakingPage() {
             </div>
           </div>
 
+          <figure className="overflow-hidden rounded-[1.75rem] border border-[color:var(--border)] bg-[color:var(--surface)]">
+            <img
+              src="/stills/speaking-efest-panel.jpg"
+              alt={t({
+                en: 'Mamadou Oury Diallo speaking with a microphone during an eFest Africa panel.',
+                fr: 'Mamadou Oury Diallo intervient avec un micro pendant un panel eFest Africa.',
+              })}
+              className="h-full min-h-[320px] w-full object-cover object-[50%_34%] md:aspect-[16/10] md:min-h-0 lg:aspect-[16/9]"
+              loading="eager"
+              decoding="async"
+            />
+            <figcaption className="flex flex-wrap items-center justify-between gap-3 border-t border-[color:var(--border)] px-5 py-4">
+              <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-[color:var(--heritage)]">
+                {t({ en: 'Panel evidence', fr: 'Preuve panel' })}
+              </span>
+              <span className="max-w-[48ch] text-sm leading-6 text-[color:var(--muted)]">
+                {t({
+                  en: 'eFest Africa, public conversation on gaming, AI, music and XR.',
+                  fr: 'eFest Africa, conversation publique sur le gaming, l’IA, la musique et la XR.',
+                })}
+              </span>
+            </figcaption>
+          </figure>
+
           <div className="grid gap-4 md:grid-cols-2">
             {appearances.map((appearance) => (
               <article

@@ -270,7 +270,7 @@ export function Footer() {
       <div className="mx-auto grid max-w-[1480px] gap-8 px-5 py-10 md:grid-cols-[1.2fr_0.8fr] md:px-8">
         <div>
           <p className="font-mono text-xs uppercase tracking-[0.24em] text-[color:var(--signal)]">
-            Portfolio dot Janngo dot Agency
+            Mamadou Oury Diallo · Janngo Agency · Dakar
           </p>
           <h2 className="mt-4 max-w-3xl text-3xl font-semibold leading-tight md:text-5xl">
             {t({

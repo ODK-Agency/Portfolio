@@ -6,8 +6,21 @@ import type { FormEvent } from 'react'
 import { SocialLinks } from '#/components/SocialLinks'
 import { PageFrame, SectionEyebrow } from '#/components/SiteShell'
 import { profile } from '#/config/profile'
+import { contactServiceLabels, getContactServiceLabel } from '#/lib/contact'
+import type { ContactService } from '#/lib/contact'
 import { usePreferences } from '#/lib/preferences'
 import { seoLinks, seoMeta } from '#/lib/seo'
+
+const contactImage = '/stills/contact-vr-guidance.jpg'
+
+const serviceOptions = Object.entries(contactServiceLabels).map(
+  ([value, label]) => ({
+    value: value as ContactService,
+    label,
+  }),
+)
+
+type SubmitStatus = 'idle' | 'sending' | 'sent' | 'error' | 'fallback'
 
 export const Route = createFileRoute('/contact')({
   head: () => ({
@@ -23,29 +36,118 @@ export const Route = createFileRoute('/contact')({
 })
 
 function ContactPage() {
-  const { t } = usePreferences()
+  const { locale, t } = usePreferences()
   const [form, setForm] = useState({
     name: '',
     email: '',
-    service: 'XR project',
+    service: 'xr-project',
     message: '',
+    company: '',
   })
+  const [status, setStatus] = useState<SubmitStatus>('idle')
+  const [fallbackUrl, setFallbackUrl] = useState('')
+  const [statusMessage, setStatusMessage] = useState('')
 
-  const submit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
+  const buildMailtoUrl = () => {
+    const serviceLabel = getContactServiceLabel(form.service, locale)
+
     const subject = encodeURIComponent(
-      `[Portfolio] ${form.service} - ${form.name || 'New inquiry'}`,
+      `[Portfolio] ${serviceLabel} - ${form.name || 'New inquiry'}`,
     )
     const body = encodeURIComponent(
       [
         `Name: ${form.name}`,
         `Email: ${form.email}`,
-        `Service: ${form.service}`,
+        `Service: ${serviceLabel}`,
         '',
         form.message,
       ].join('\n'),
     )
-    window.location.href = `mailto:${profile.email}?subject=${subject}&body=${body}`
+    return `mailto:${profile.email}?subject=${subject}&body=${body}`
+  }
+
+  const submit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    setStatus('sending')
+    setStatusMessage('')
+    setFallbackUrl('')
+
+    const nextFallbackUrl = buildMailtoUrl()
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...form,
+          locale,
+        }),
+      })
+
+      if (response.ok) {
+        setStatus('sent')
+        setStatusMessage(
+          t({
+            en: 'Message sent. I will reply within two business days.',
+            fr: 'Message envoyé. Je répondrai sous deux jours ouvrés.',
+          }),
+        )
+        setForm({
+          name: '',
+          email: '',
+          service: 'xr-project',
+          message: '',
+          company: '',
+        })
+        return
+      }
+
+      const result = (await response.json().catch(() => null)) as {
+        code?: string
+      } | null
+
+      if (result?.code === 'validation_failed') {
+        setStatus('error')
+        setStatusMessage(
+          t({
+            en: 'Please check your email, service and message before sending.',
+            fr: 'Vérifie ton email, le service et le message avant l’envoi.',
+          }),
+        )
+        return
+      }
+
+      if (result?.code === 'rate_limited') {
+        setStatus('error')
+        setStatusMessage(
+          t({
+            en: 'Please wait a moment before sending another message.',
+            fr: 'Attends un instant avant d’envoyer un autre message.',
+          }),
+        )
+        return
+      }
+
+      setStatus('fallback')
+      setFallbackUrl(nextFallbackUrl)
+      setStatusMessage(
+        t({
+          en: 'The direct email service is not available yet. You can send the same message with your email app.',
+          fr: 'L’envoi direct n’est pas encore disponible. Tu peux envoyer le même message avec ton application mail.',
+        }),
+      )
+    } catch {
+      setStatus('fallback')
+      setFallbackUrl(nextFallbackUrl)
+      setStatusMessage(
+        t({
+          en: 'The connection failed. You can send the same message with your email app.',
+          fr: 'La connexion a échoué. Tu peux envoyer le même message avec ton application mail.',
+        }),
+      )
+    }
   }
 
   return (
@@ -65,6 +167,20 @@ function ContactPage() {
               fr: 'Développements XR, médias muséaux, formations Unity, archives 360 et prototypes interactifs.',
             })}
           </p>
+          <figure className="mt-8 max-w-[26rem] overflow-hidden rounded-[1.5rem] border border-[color:var(--border)] bg-[color:var(--surface)] md:mt-10 lg:max-w-[30rem]">
+            <img
+              src={contactImage}
+              alt={t({
+                en: 'Oury guiding a VR headset experience during an immersive session.',
+                fr: 'Oury accompagne une expérience en casque VR pendant une session immersive.',
+              })}
+              width={1200}
+              height={1800}
+              className="aspect-[2/3] w-full object-cover object-center"
+              loading="eager"
+              decoding="async"
+            />
+          </figure>
         </div>
         <div className="grid min-w-0 gap-4">
           <div className="max-w-full overflow-hidden rounded-[2rem] border border-[color:var(--border)] bg-[color:var(--surface)] p-6 md:rounded-[2.5rem] md:p-12">
@@ -101,6 +217,9 @@ function ContactPage() {
                 </span>
                 <input
                   required
+                  minLength={2}
+                  maxLength={120}
+                  name="name"
                   value={form.name}
                   onChange={(event) =>
                     setForm((current) => ({
@@ -119,6 +238,8 @@ function ContactPage() {
                 <input
                   required
                   type="email"
+                  maxLength={160}
+                  name="email"
                   value={form.email}
                   onChange={(event) =>
                     setForm((current) => ({
@@ -136,6 +257,7 @@ function ContactPage() {
                 {t({ en: 'Service', fr: 'Service' })}
               </span>
               <select
+                name="service"
                 value={form.service}
                 onChange={(event) =>
                   setForm((current) => ({
@@ -145,24 +267,15 @@ function ContactPage() {
                 }
                 className="rounded-[1rem] border border-[color:var(--canvas)]/16 bg-[color:var(--canvas)]/8 px-4 py-3 text-base text-[color:var(--canvas)] outline-none transition focus:border-[color:var(--signal)]"
               >
-                <option className="bg-[oklch(0.96_0.01_82)] text-[oklch(0.18_0.02_158)]">
-                  XR project
-                </option>
-                <option className="bg-[oklch(0.96_0.01_82)] text-[oklch(0.18_0.02_158)]">
-                  Unity training
-                </option>
-                <option className="bg-[oklch(0.96_0.01_82)] text-[oklch(0.18_0.02_158)]">
-                  Museum / heritage
-                </option>
-                <option className="bg-[oklch(0.96_0.01_82)] text-[oklch(0.18_0.02_158)]">
-                  Panel / mentoring
-                </option>
-                <option className="bg-[oklch(0.96_0.01_82)] text-[oklch(0.18_0.02_158)]">
-                  360 field media
-                </option>
-                <option className="bg-[oklch(0.96_0.01_82)] text-[oklch(0.18_0.02_158)]">
-                  Other
-                </option>
+                {serviceOptions.map((option) => (
+                  <option
+                    key={option.value}
+                    value={option.value}
+                    className="bg-[oklch(0.96_0.01_82)] text-[oklch(0.18_0.02_158)]"
+                  >
+                    {option.label[locale]}
+                  </option>
+                ))}
               </select>
             </label>
             <label className="grid gap-2">
@@ -171,6 +284,9 @@ function ContactPage() {
               </span>
               <textarea
                 required
+                minLength={12}
+                maxLength={2400}
+                name="message"
                 rows={5}
                 value={form.message}
                 onChange={(event) =>
@@ -186,12 +302,59 @@ function ContactPage() {
                 })}
               />
             </label>
+            <label className="hidden">
+              Company
+              <input
+                name="company"
+                tabIndex={-1}
+                autoComplete="off"
+                value={form.company}
+                onChange={(event) =>
+                  setForm((current) => ({
+                    ...current,
+                    company: event.target.value,
+                  }))
+                }
+              />
+            </label>
+            <div aria-live="polite" className="min-h-6">
+              {statusMessage ? (
+                <p
+                  className={`text-sm leading-6 ${
+                    status === 'sent'
+                      ? 'text-[color:var(--signal)]'
+                      : 'text-[color:var(--canvas)]/74'
+                  }`}
+                >
+                  {statusMessage}
+                </p>
+              ) : null}
+              {fallbackUrl ? (
+                <a
+                  href={fallbackUrl}
+                  className="mt-2 inline-flex text-sm font-semibold text-[color:var(--signal)] underline underline-offset-4"
+                >
+                  {t({
+                    en: 'Open email app',
+                    fr: 'Ouvrir l’application mail',
+                  })}
+                </a>
+              ) : null}
+            </div>
             <button
               type="submit"
-              className="inline-flex w-fit items-center gap-2 rounded-full bg-[color:var(--signal)] px-5 py-3 text-sm font-semibold text-[color:var(--ink)] transition hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[color:var(--canvas)]"
+              disabled={status === 'sending'}
+              className="inline-flex w-fit items-center gap-2 rounded-full bg-[color:var(--signal)] px-5 py-3 text-sm font-semibold text-[color:var(--ink)] transition hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[color:var(--canvas)] disabled:cursor-wait disabled:opacity-70 disabled:hover:translate-y-0"
             >
               <Send size={16} aria-hidden="true" />
-              {t({ en: 'Prepare email', fr: 'Préparer l’email' })}
+              {status === 'sending'
+                ? t({ en: 'Sending...', fr: 'Envoi...' })
+                : status === 'fallback' || status === 'error'
+                  ? t({
+                      en: 'Retry direct send',
+                      fr: 'Réessayer l’envoi direct',
+                    })
+                  : t({ en: 'Send message', fr: 'Envoyer le message' })}
             </button>
           </form>
         </div>
