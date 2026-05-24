@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { ArrowUpRight, Mail, Send } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { FormEvent } from 'react'
 
 import { SocialLinks } from '#/components/SocialLinks'
@@ -21,6 +21,8 @@ const serviceOptions = Object.entries(contactServiceLabels).map(
 )
 
 type SubmitStatus = 'idle' | 'sending' | 'sent' | 'error' | 'fallback'
+
+const successMessageDurationMs = 8000
 
 export const Route = createFileRoute('/contact')({
   head: () => ({
@@ -47,6 +49,17 @@ function ContactPage() {
   const [status, setStatus] = useState<SubmitStatus>('idle')
   const [fallbackUrl, setFallbackUrl] = useState('')
   const [statusMessage, setStatusMessage] = useState('')
+
+  useEffect(() => {
+    if (status !== 'sent') return undefined
+
+    const timer = window.setTimeout(() => {
+      setStatus('idle')
+      setStatusMessage('')
+    }, successMessageDurationMs)
+
+    return () => window.clearTimeout(timer)
+  }, [status])
 
   const buildMailtoUrl = () => {
     const serviceLabel = getContactServiceLabel(form.service, locale)
@@ -90,8 +103,8 @@ function ContactPage() {
         setStatus('sent')
         setStatusMessage(
           t({
-            en: 'Message sent. I will reply within two business days.',
-            fr: 'Message envoyé. Je répondrai sous deux jours ouvrés.',
+            en: "Message sent. I'll get back to you as soon as possible. In the meantime, you can also connect with me on LinkedIn.",
+            fr: 'Message envoyé. Je vous réponds dans les plus brefs délais. En attendant, vous pouvez aussi me retrouver sur LinkedIn.',
           }),
         )
         setForm({
@@ -317,17 +330,31 @@ function ContactPage() {
                 }
               />
             </label>
-            <div aria-live="polite" className="min-h-6">
+            <div className="min-h-6">
               {statusMessage ? (
-                <p
-                  className={`text-sm leading-6 ${
+                <div
+                  role={status === 'sent' ? 'status' : 'alert'}
+                  className={`rounded-[1.25rem] border px-4 py-3 text-sm leading-6 ${
                     status === 'sent'
-                      ? 'text-[color:var(--signal)]'
-                      : 'text-[color:var(--canvas)]/74'
+                      ? 'border-[oklch(0.68_0.15_150)]/45 bg-[oklch(0.25_0.09_155)] font-medium text-[oklch(0.91_0.06_150)] shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]'
+                      : 'border-[color:var(--canvas)]/14 bg-[color:var(--canvas)]/8 text-[color:var(--canvas)]/78'
                   }`}
                 >
-                  {statusMessage}
-                </p>
+                  <p>{statusMessage}</p>
+                  {status === 'sent' ? (
+                    <a
+                      href={profile.linkedinUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-2 inline-flex w-fit font-semibold text-[oklch(0.91_0.06_150)] underline decoration-[oklch(0.78_0.12_150)]/70 underline-offset-4 transition hover:text-white focus:outline-none focus:ring-2 focus:ring-[oklch(0.78_0.12_150)]/70 focus:ring-offset-2 focus:ring-offset-[color:var(--ink)]"
+                    >
+                      {t({
+                        en: 'Connect on LinkedIn',
+                        fr: 'Me retrouver sur LinkedIn',
+                      })}
+                    </a>
+                  ) : null}
+                </div>
               ) : null}
               {fallbackUrl ? (
                 <a
@@ -349,12 +376,17 @@ function ContactPage() {
               <Send size={16} aria-hidden="true" />
               {status === 'sending'
                 ? t({ en: 'Sending...', fr: 'Envoi...' })
-                : status === 'fallback' || status === 'error'
+                : status === 'sent'
                   ? t({
-                      en: 'Retry direct send',
-                      fr: 'Réessayer l’envoi direct',
+                      en: 'Send another message',
+                      fr: 'Envoyer un autre message',
                     })
-                  : t({ en: 'Send message', fr: 'Envoyer le message' })}
+                  : status === 'fallback' || status === 'error'
+                    ? t({
+                        en: 'Retry direct send',
+                        fr: 'Réessayer l’envoi direct',
+                      })
+                    : t({ en: 'Send message', fr: 'Envoyer le message' })}
             </button>
           </form>
         </div>
