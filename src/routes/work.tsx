@@ -26,6 +26,7 @@ const filters: {
   kind: ProjectKind | 'all'
 }[] = [
   { label: { en: 'All', fr: 'Tout' }, kind: 'all' },
+  { label: { en: 'Narrative', fr: 'Narratif' }, kind: 'narrative' },
   { label: { en: 'Heritage', fr: 'Patrimoine' }, kind: 'heritage' },
   { label: { en: 'XR', fr: 'XR' }, kind: 'xr' },
   { label: { en: 'Training', fr: 'Formation' }, kind: 'training' },

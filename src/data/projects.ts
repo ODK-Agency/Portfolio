@@ -3,6 +3,7 @@ export type Locale = 'en' | 'fr'
 export type LocalizedText = Record<Locale, string>
 
 export type ProjectKind =
+  | 'narrative'
   | 'heritage'
   | 'xr'
   | 'training'
@@ -113,6 +114,108 @@ const panorama = (
 })
 
 export const portfolioProjects: PortfolioProject[] = [
+  {
+    slug: 'kimanis-redemption',
+    title: "Kimani's Redemption",
+    year: '2026',
+    location: 'Remote, Sénégal x Kenya x Nigeria x Allemagne x Suède',
+    status: 'published',
+    featured: true,
+    kinds: ['narrative', 'heritage'],
+    summary: {
+      en: 'A 96-hour narrative game jam project about family redemption, ancestral memory and intergenerational transmission, built by Team 3 during the Be Ubuntu Game Jam.',
+      fr: 'Un projet narratif de game jam en 96h sur la rédemption familiale, la mémoire des ancêtres et la transmission intergénérationnelle, créé par la Team 3 pendant la Be Ubuntu Game Jam.',
+    },
+    role: {
+      en: 'Unity developer and Senegal representative within Team 3, alongside co-representation from Mame Mor Kandji, president of Teranga Game Makers.',
+      fr: 'Développeur Unity et représentant du Sénégal au sein de Team 3, avec la co-représentation de Mame Mor Kandji, président de Teranga Game Makers.',
+    },
+    impact: {
+      en: 'Turns Ubuntu, “I am because we are”, into a playable intimate story shaped by a pan-African team working across five countries, three continents and multiple time zones.',
+      fr: 'Transforme Ubuntu, « I am because we are », en récit jouable intime porté par une équipe panafricaine travaillant sur cinq pays, trois continents et plusieurs fuseaux horaires.',
+    },
+    stack: ['Unity', 'C#', 'narration interactive', 'design 2D', 'audio'],
+    partners: ['Elimu Goal.Org', 'Futuregames Warsaw', 'Be Ubuntu Game Jam'],
+    tags: ['narrative', 'storytelling', 'heritage', 'gamejam'],
+    cover: '/stills/projects/kimanis-redemption-cover.png',
+    coverAlt: {
+      en: "Title screen from Kimani's Redemption inside a warm, low-lit 2D game scene.",
+      fr: "Écran titre de Kimani's Redemption dans une scène de jeu 2D chaude et tamisée.",
+    },
+    media: [
+      video(
+        'kimanis-redemption-gameplay-video',
+        {
+          en: 'Team 3 gameplay video',
+          fr: 'Vidéo gameplay Team 3',
+        },
+        r2('GameplayTeam3%20(1).mp4'),
+        '/stills/projects/kimanis-redemption-cover.png',
+        {
+          en: "Gameplay video from Kimani's Redemption, the Team 3 Be Ubuntu Game Jam project.",
+          fr: "Vidéo gameplay de Kimani's Redemption, le projet Team 3 de la Be Ubuntu Game Jam.",
+        },
+      ),
+      image(
+        'kimanis-redemption-title',
+        { en: 'Awake screen', fr: 'Écran Awake' },
+        '/stills/projects/kimanis-redemption-cover.png',
+        {
+          en: "Kimani's Redemption title screen with the Awake prompt inside a 2D room.",
+          fr: "Écran titre de Kimani's Redemption avec le bouton Awake dans une pièce 2D.",
+        },
+      ),
+      image(
+        'kimanis-redemption-dialogue',
+        { en: 'Family memory dialogue', fr: 'Dialogue mémoire familiale' },
+        '/stills/projects/kimanis-redemption-dialogue.png',
+        {
+          en: 'Dialogue scene about missing a family member inside the game.',
+          fr: "Scène de dialogue sur l'absence d'un proche dans le jeu.",
+        },
+      ),
+      image(
+        'kimanis-redemption-interaction',
+        { en: 'Object interaction', fr: 'Interaction objet' },
+        '/stills/projects/kimanis-redemption-interaction.png',
+        {
+          en: 'Object interaction prompt inside the dimly lit room.',
+          fr: "Prompt d'interaction objet dans la pièce sombre.",
+        },
+      ),
+      image(
+        'kimanis-redemption-ancestors',
+        { en: 'Ancestor passage', fr: 'Passage des ancêtres' },
+        '/stills/projects/kimanis-redemption-ancestors.png',
+        {
+          en: 'Transition screen inviting the player to meet their ancestors.',
+          fr: 'Écran de transition invitant le joueur à rencontrer ses ancêtres.',
+        },
+      ),
+    ],
+    caseStudySections: {
+      origin: {
+        en: "Kimani's Redemption was created in mid-April 2026 during the Be Ubuntu Game Jam, organized by Elimu Goal.Org with Futuregames Warsaw around the Ubuntu principle “I am because we are”.",
+        fr: "Kimani's Redemption a été créé mi-avril 2026 pendant la Be Ubuntu Game Jam, organisée par Elimu Goal.Org avec Futuregames Warsaw autour du principe Ubuntu « I am because we are ».",
+      },
+      experience: {
+        en: 'The game follows an intimate path of family redemption where the player moves through grief, objects, ancestral memory and the possibility of transmission between generations.',
+        fr: "Le jeu suit un parcours intime de rédemption familiale où le joueur traverse le deuil, les objets, la mémoire des ancêtres et la possibilité d'une transmission entre générations.",
+      },
+      challenge: {
+        en: 'Build a coherent narrative game in 96 hours with a six-person team distributed across Kenya, Nigeria, Germany, Sweden and Senegal.',
+        fr: 'Construire un jeu narratif cohérent en 96h avec une équipe de six personnes répartie entre Kenya, Nigeria, Allemagne, Suède et Sénégal.',
+      },
+      contribution: {
+        en: 'Oury contributed Unity development for Team 3 with Christian from Kenya also on Unity development, Salim from Kenya on story and music, Babawale from Nigeria on 2D character art, Katharina from Germany on level design and character art, and Adam from Sweden on level design.',
+        fr: "Oury a contribué au développement Unity pour la Team 3 avec Christian du Kenya aussi au développement Unity, Salim du Kenya à l'histoire et la musique, Babawale du Nigeria au character art 2D, Katharina d'Allemagne au level design et character art, et Adam de Suède au level design.",
+      },
+      proof: {
+        en: 'The project was shown through the Games for Change Africa Summit in Nairobi, connecting the 96-hour remote production to a wider African games and impact audience.',
+        fr: "Le projet a été diffusé via le Games for Change Africa Summit à Nairobi, reliant cette production remote de 96h à un public africain plus large autour du jeu et de l'impact.",
+      },
+    },
+  },
   {
     slug: 'micro-folie-digital-heritage',
     title: 'Micro-Folie Digital Heritage',
@@ -592,42 +695,46 @@ export const portfolioProjects: PortfolioProject[] = [
     featured: false,
     kinds: ['xr', 'simulation'],
     summary: {
-      en: 'A compact VR prototype exploring guided service interaction, spatial onboarding and applied training logic in a branded context.',
-      fr: 'Un prototype VR compact explorant l’interaction guidée, l’onboarding spatial et la logique de formation appliquée dans un contexte de marque.',
+      en: 'A branded VR activation pitch for Yango, imagined with Jumper Namibia around a timed room challenge and playful brand recall.',
+      fr: 'Un pitch d’activation de marque en VR pour Yango, imaginé avec Jumper Namibia autour d’un défi chronométré en chambre et d’une mémorisation ludique de marque.',
     },
     role: {
-      en: 'Unity VR developer and interactive prototype builder.',
-      fr: 'Développeur Unity VR et constructeur de prototype interactif.',
+      en: 'Unity VR developer and interactive brand activation prototype builder.',
+      fr: 'Développeur Unity VR et constructeur de prototype d’activation de marque interactive.',
     },
     impact: {
-      en: 'Shows applied XR work beyond cultural projects, with attention to user flow, context and practical delivery.',
-      fr: 'Montre un travail XR appliqué au-delà du culturel, avec attention portée au parcours utilisateur, au contexte et à la livraison concrète.',
+      en: 'Positions VR as a proposal tool for experiential marketing: simple mechanics, a recognizable service promise and a brand moment built for recall.',
+      fr: 'Positionne la VR comme outil de proposition pour le marketing expérientiel: mécaniques simples, promesse de service reconnaissable et moment de marque conçu pour rester en mémoire.',
     },
     stack: ['Unity', 'VR', 'C#', 'Interaction design'],
-    tags: ['VR', 'prototype', 'service', 'training'],
+    partners: ['Jumper Namibia'],
+    tags: ['VR', 'brand activation', 'prototype', 'experiential marketing'],
     cover: '/stills/projects/yango-vr-3.jpg',
     coverAlt: {
-      en: 'Interior VR scene from the YangoVR prototype.',
-      fr: 'Scène intérieure VR issue du prototype YangoVR.',
+      en: 'Interior room scene from the Yango VR brand activation pitch.',
+      fr: 'Scène intérieure de chambre issue du pitch d’activation de marque Yango VR.',
     },
     media: [
       video(
         'yango-vr-video',
-        { en: 'Applied VR prototype video', fr: 'Vidéo prototype VR appliqué' },
+        {
+          en: 'Brand activation pitch video',
+          fr: 'Vidéo pitch activation de marque',
+        },
         r2('yangoVR.mp4'),
         '/stills/projects/yango-vr-3.jpg',
         {
-          en: 'Video from the YangoVR applied prototype.',
-          fr: 'Vidéo issue du prototype appliqué YangoVR.',
+          en: 'Video from the Yango VR branded activation prototype pitch.',
+          fr: 'Vidéo issue du pitch prototype d’activation de marque Yango VR.',
         },
       ),
       image(
         'yango-room',
-        { en: 'Prototype room', fr: 'Pièce prototype' },
+        { en: 'Timed room challenge', fr: 'Défi chronométré en chambre' },
         '/stills/projects/yango-vr-3.jpg',
         {
-          en: 'Prototype room from the YangoVR demo.',
-          fr: 'Pièce prototype issue de la démo YangoVR.',
+          en: 'Room where the player searches for the YANGO letters before the ride leaves.',
+          fr: 'Chambre où le joueur cherche les lettres YANGO avant le départ de la course.',
         },
       ),
       image(
@@ -635,23 +742,31 @@ export const portfolioProjects: PortfolioProject[] = [
         { en: 'Letter interaction', fr: 'Interaction lettres' },
         '/stills/projects/yango-vr-4.jpg',
         {
-          en: 'Letter interaction scene from the YangoVR prototype.',
-          fr: 'Scène d’interaction lettres issue du prototype YangoVR.',
+          en: 'Letter interaction scene from the Yango VR brand activation concept.',
+          fr: 'Scène d’interaction lettres issue du concept d’activation de marque Yango VR.',
         },
       ),
     ],
     caseStudySections: {
+      origin: {
+        en: 'Yango VR was developed as a brand activation concept with Jumper Namibia, a Namibian marketing, communication and visual communication agency, as a proposal for Yango.',
+        fr: 'Yango VR a été développé comme concept d’activation de marque avec Jumper Namibia, agence namibienne de marketing, communication et communication visuelle, dans une logique de proposition pour Yango.',
+      },
+      experience: {
+        en: 'A Yango is waiting outside the apartment. Inside the bedroom, the player has 45 minutes to find the letters that form YANGO, appearing in random places, then place them on a table to rebuild the word before time runs out.',
+        fr: 'Un Yango attend dehors devant l’appartement. Dans la chambre, le joueur a 45 minutes pour trouver les lettres qui forment YANGO, apparues à des endroits aléatoires, puis les placer sur une table pour recomposer le mot avant la fin du temps.',
+      },
       challenge: {
-        en: 'Create a VR experience where the user understands the environment, the action flow and the purpose quickly.',
-        fr: 'Créer une expérience VR où l’utilisateur comprend rapidement l’environnement, le flux d’action et l’objectif.',
+        en: 'Turn a ride-hailing brand promise into a short, legible VR game loop that can work as a branded activation pitch instead of a public delivered project.',
+        fr: 'Transformer une promesse de service VTC en boucle de jeu VR courte et lisible, pensée comme pitch d’activation de marque plutôt que comme projet public livré.',
       },
       contribution: {
-        en: 'Built the Unity VR prototype structure, interaction logic and spatial user flow.',
-        fr: 'Construction de la structure prototype Unity VR, de la logique d’interaction et du parcours utilisateur spatial.',
+        en: 'Built the Unity VR prototype structure, random letter placement logic, object interaction flow and table-based word assembly mechanic.',
+        fr: 'Construction de la structure prototype Unity VR, de la logique d’apparition aléatoire des lettres, du flux d’interaction objet et de la mécanique de recomposition du mot sur table.',
       },
       proof: {
-        en: 'Demo video and stills show the interaction flow and applied VR structure.',
-        fr: 'La vidéo démo et les captures montrent le parcours d’interaction et la structure VR appliquée.',
+        en: 'Demo video and stills document the pitch prototype mechanics and brand activation direction prepared around the Yango concept.',
+        fr: 'La vidéo démo et les captures documentent les mécaniques du prototype de pitch et la direction d’activation de marque préparée autour du concept Yango.',
       },
     },
   },

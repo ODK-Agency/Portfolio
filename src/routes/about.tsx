@@ -81,15 +81,22 @@ const anchorCopy = {
   fr: 'Oury est Peul du Fouta Djallon, originaire de Korbé en Guinée, basé à Dakar. Locuteur natif Pulaar, à l’aise en français et en anglais, il travaille depuis un ancrage Sénégal et Guinée qui structure le patrimoine, les captations terrain et la médiation institutionnelle.',
 }
 
+const anchorRoles = [
+  {
+    en: 'International Partnerships Lead, Teranga Game Makers, since 2025',
+    fr: 'International Partnerships Lead, Teranga Game Makers, depuis 2025',
+  },
+]
+
 function AboutPage() {
   const { t } = usePreferences()
 
   return (
     <PageFrame>
-      <section className="mx-auto grid max-w-[1480px] gap-8 overflow-hidden px-5 py-16 md:px-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
+      <section className="mx-auto grid max-w-[1480px] gap-8 overflow-hidden px-5 py-10 md:px-8 md:py-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
         <div className="min-w-0">
           <SectionEyebrow>{t({ en: 'About', fr: 'À propos' })}</SectionEyebrow>
-          <h1 className="mt-5 max-w-[11ch] break-words text-[clamp(3rem,10vw,6.75rem)] font-semibold leading-[0.96] text-[color:var(--ink)] md:max-w-[12ch]">
+          <h1 className="mt-5 max-w-[14ch] text-[clamp(2.5rem,5.6vw,4.25rem)] font-semibold leading-[1.04] text-[color:var(--ink)] md:max-w-[15ch]">
             {t({
               en: 'Builder, teacher, field collector.',
               fr: 'Développeur, formateur, collecteur terrain.',
@@ -212,6 +219,16 @@ function AboutPage() {
             <p className="mt-4 max-w-[68ch] text-lg leading-8 text-[color:var(--ink)]">
               {t(anchorCopy)}
             </p>
+            <div className="mt-6 grid gap-3 border-t border-[color:var(--border)] pt-5">
+              {anchorRoles.map((role) => (
+                <p
+                  key={role.en}
+                  className="max-w-[68ch] font-mono text-[11px] uppercase tracking-[0.14em] text-[color:var(--heritage)]"
+                >
+                  {t(role)}
+                </p>
+              ))}
+            </div>
           </div>
 
           <div className="grid gap-4 md:grid-cols-3">

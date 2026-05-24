@@ -20,6 +20,20 @@ export const Route = createFileRoute('/speaking')({
 
 const appearances = [
   {
+    title: {
+      en: 'International Partnerships Lead, Teranga Game Makers',
+      fr: 'International Partnerships Lead, Teranga Game Makers',
+    },
+    meta: {
+      en: '2025 to 2026, Senegal',
+      fr: '2025 à 2026, Sénégal',
+    },
+    copy: {
+      en: 'Coordination with the Embassy of Senegal in Poland, in connection with Ambassador Diamane Diome, as part of Be Ubuntu Senegal. Mobilizing the local community for the presence of Senegalese studios in international game jams.',
+      fr: 'Coordination avec l’Ambassade du Sénégal en Pologne, en lien avec l’Ambassadeur Diamane Diome, dans le cadre de Be Ubuntu Senegal. Mobilisation de la communauté locale pour la présence des studios sénégalais en game jams internationaux.',
+    },
+  },
+  {
     title: { en: 'eFest Africa 2026', fr: 'eFest Africa 2026' },
     meta: { en: 'Panel, Dakar', fr: 'Panel, Dakar' },
     copy: {

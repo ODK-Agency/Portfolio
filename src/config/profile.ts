@@ -21,5 +21,5 @@ export const profile = {
     'https://www.linkedin.com/in/ourymajor',
   ),
   whatsappUrl: envValue(import.meta.env.VITE_WHATSAPP_URL),
-  xUrl: envValue(import.meta.env.VITE_X_URL, 'https://x.com/ourymajor'),
+  xUrl: envValue(import.meta.env.VITE_X_URL, 'https://x.com/PriinceMajor'),
 } as const

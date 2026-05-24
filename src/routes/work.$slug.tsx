@@ -162,6 +162,7 @@ function WorkDetailPage() {
 }
 
 const kindLabels = {
+  narrative: { en: 'Narrative', fr: 'Narratif' },
   heritage: { en: 'Heritage', fr: 'Patrimoine' },
   xr: { en: 'XR', fr: 'XR' },
   training: { en: 'Training', fr: 'Formation' },
